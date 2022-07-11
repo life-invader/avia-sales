@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/avia-sales/static/css/main.56acb272.css",
+    "main.js": "/avia-sales/static/js/main.89b8a917.js",
+    "index.html": "/avia-sales/index.html",
+    "static/media/mark.svg": "/avia-sales/static/media/mark.70919d3708a4501d68f4.svg",
+    "main.56acb272.css.map": "/avia-sales/static/css/main.56acb272.css.map",
+    "main.89b8a917.js.map": "/avia-sales/static/js/main.89b8a917.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.56acb272.css",
+    "static/js/main.89b8a917.js"
+  ]
+}
