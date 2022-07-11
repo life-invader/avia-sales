@@ -1,0 +1,39 @@
+.sort-buttons-list {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sort-button {
+  width: 167px;
+  padding: 15px;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-family: 'Open Sans', sans-serif;
+  background-color: #ffffff;
+  border: 1px solid #dfe5ec;
+  cursor: pointer;
+
+  &:hover:not(.sort-button-active) {
+    background-color: #f1fcff;
+  }
+}
+
+.sort-button-active {
+  color: #ffffff;
+  background-color: #2196f3;
+  border-color: #2196f3;
+}
+
+.first-button {
+  border-radius: 7px 0 0 7px;
+}
+
+.last-button {
+  border-radius: 0 7px 7px 0;
+}
+
+.sort-buttons-item+.sort-buttons-item .sort-button {
+  border-left: none;
+}
