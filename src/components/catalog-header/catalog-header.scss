@@ -1,3 +1,5 @@
+@import '../../variables.scss';
+
 .sort-buttons-list {
   display: flex;
   margin: 0;
@@ -11,19 +13,20 @@
   text-transform: uppercase;
   font-weight: 600;
   font-family: 'Open Sans', sans-serif;
-  background-color: #ffffff;
-  border: 1px solid #dfe5ec;
+  color: $main-text-color;
+  background-color: $color-white;
+  border: 1px solid $color-gray;
   cursor: pointer;
 
   &:hover:not(.sort-button-active) {
-    background-color: #f1fcff;
+    background-color: $color-light-blue;
   }
 }
 
 .sort-button-active {
-  color: #ffffff;
-  background-color: #2196f3;
-  border-color: #2196f3;
+  color: $color-white;
+  background-color: $color-blue;
+  border-color: $color-blue;
 }
 
 .first-button {

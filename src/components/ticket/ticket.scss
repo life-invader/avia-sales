@@ -1,6 +1,8 @@
+@import '../../variables.scss';
+
 .ticket {
   padding: 20px;
-  background-color: #ffffff;
+  background-color: $color-white;
   border-radius: 5px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   width: 502px;
@@ -24,7 +26,7 @@
   }
 
   &-price {
-    color: #2196f3;
+    color: $color-blue;
     font-size: 24px;
     line-height: 24px;
     margin: 0;
@@ -32,7 +34,7 @@
 
   &-info-title {
     line-height: 18px;
-    color: #a0b0b9;
+    color: $gray-text-color;
     margin: 0;
     text-transform: uppercase;
     letter-spacing: 0.5px;

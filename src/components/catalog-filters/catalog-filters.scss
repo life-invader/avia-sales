@@ -1,3 +1,5 @@
+@import '../../variables.scss';
+
 .filters {
   position: sticky;
   top: 89px;
@@ -9,7 +11,7 @@
   border: none;
   padding: 20px 0 15px;
   margin: 0;
-  background-color: #ffffff;
+  background-color: $color-white;
   border-radius: 5px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
@@ -43,11 +45,7 @@
   display: block;
 
   &:hover {
-    background-color: #F1FCFF;
-  }
-
-  &:focus {
-    outline: 1px solid #000000;
+    background-color: $color-light-blue;
   }
 }
 
@@ -57,7 +55,7 @@
   left: 20px;
   width: 20px;
   height: 20px;
-  border: 1px solid #2196F3;
+  border: 1px solid $color-blue;
   border-radius: 2px;
 }
 
@@ -74,7 +72,7 @@
 }
 
 .transfer-input:focus+.transfer-custom-checkbox {
-  outline: 3px solid #83b3d3;
+  outline: 3px solid $color-dirty-blue;
 }
 
 .company-list {
@@ -89,12 +87,12 @@
   left: 20px;
   width: 20px;
   height: 20px;
-  border: 1px solid #2196f3;
+  border: 1px solid $color-blue;
   border-radius: 50%;
 }
 
 .company-input:focus+.company-custom-radio {
-  outline: 3px solid #83b3d3;
+  outline: 3px solid $color-dirty-blue;
 }
 
 .company-input:checked+.company-custom-radio::after {
@@ -105,6 +103,6 @@
   transform: translate(-50%, -50%);
   width: 12px;
   height: 12px;
-  background-color: #2196f3;
+  background-color: $color-blue;
   border-radius: 50%;
 }

@@ -1,3 +1,5 @@
+@import './variables.scss';
+
 *,
 *::after,
 *::before {
@@ -18,13 +20,13 @@
 }
 
 body {
-  background-color: #F3F7FA;
+  background-color: $bg-color;
   min-width: 754px;
   font-family: 'Open Sans', sans-serif;
   font-size: 12px;
   line-height: 20px;
   font-weight: 600;
-  color: #4a4a4a;
+  color: $main-text-color;
   margin: 0;
   padding: 0;
 }
