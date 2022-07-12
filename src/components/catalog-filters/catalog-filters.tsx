@@ -3,7 +3,6 @@ import './catalog-filters.scss';
 function CatalogFilters() {
   return (
     <div className="filters">
-      <h2 className="visually-hidden">Фильтры авиабилетов</h2>
       <form className="filters-form" action="">
         <fieldset className="filter-group">
           <span className="title-wrapper">
