@@ -1,0 +1,59 @@
+@import '../../variables.scss';
+
+.search {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.field-wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+  position: relative;
+}
+
+.change-btn {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: none;
+  background-color: $color-white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background-image: url("../../../public/images/icons/arrows.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+}
+
+.search-input {
+  width: 100%;
+  padding: 20px 15px;
+  color: $main-text-color;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  outline: none;
+  font-family: inherit;
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 400;
+}
+
+.search-input::placeholder {
+  color: #9EA9B7;
+}
+
+.search-input-date {
+  padding-right: 50px;
+  background-image: url("../../../public/images/icons/calendar.svg");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+}

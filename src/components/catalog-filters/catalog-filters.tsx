@@ -3,7 +3,7 @@ import './catalog-filters.scss';
 function CatalogFilters() {
   return (
     <div className="filters">
-      <form className="filters-form" action="">
+      <form className="filters-form" id="tickets-form">
         <fieldset className="filter-group">
           <span className="title-wrapper">
             <legend className="filter-group-title">Количество пересадок</legend>
