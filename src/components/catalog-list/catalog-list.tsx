@@ -1,15 +1,22 @@
 import Ticket from '../ticket/ticket';
+import type { ICompany, ITicket } from '../../store/tickets-slice';
 import './catalog-list.scss';
 
-function CatalogList() {
+type CatalogListType = {
+  tickets: ITicket[];
+  companies: ICompany[];
+};
+
+function CatalogList({ tickets, companies }: CatalogListType) {
+  const getCompany = (ticket: ITicket) => {
+    return companies.find((item) => item.id === ticket.companyId);
+  };
+
   return (
     <ul className="catalog-list">
-      <Ticket />
-      <Ticket />
-      <Ticket />
-      <Ticket />
-      <Ticket />
-      <Ticket />
+      {tickets.map((ticket) => (
+        <Ticket key={ticket.id} {...ticket} company={getCompany(ticket)} />
+      ))}
     </ul>
   );
 }

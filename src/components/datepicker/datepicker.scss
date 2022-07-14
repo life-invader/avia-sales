@@ -1,0 +1,17 @@
+@import '../../variables.scss';
+
+.datepicker {
+  position: absolute;
+  min-width: 320px;
+  padding: 20px 34px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  right: 0;
+  top: calc(100% + 2px);
+  background-color: $color-white;
+}
+
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 20px);
+  gap: 7px 20px;
+}
