@@ -1,6 +1,33 @@
+/* eslint-disable no-console */
+import { ICompany, ITicket } from '../../types/tickets';
 import './catalog-filters.scss';
 
-function CatalogFilters() {
+const Tranfers: { [key: string]: string } = {
+  'no-transfer': 'Без пересадок',
+  '1-transfer': '1 пересадки',
+  '2-transfer': '2 пересадки',
+  '3-transfer': '3 пересадки',
+};
+
+type CatalogFiltersType = {
+  tickets: ITicket[];
+  companies: ICompany[];
+};
+
+function CatalogFilters({ tickets, companies }: CatalogFiltersType) {
+  const stops = tickets
+    .map((item) => item.info.stops)
+    .reduce((acc: { [key: string]: number }, item) => {
+      acc[`${item.length === 0 ? 'no' : item.length}-transfer`] = acc[
+        `${item.length === 0 ? 'no' : item.length}-transfer`
+      ]
+        ? (acc[`${item.length === 0 ? 'no' : item.length}-transfer`] += 1)
+        : 1;
+
+      return acc;
+    }, {});
+  console.log(stops);
+
   return (
     <div className="filters">
       <form className="filters-form" id="tickets-form">
@@ -10,7 +37,24 @@ function CatalogFilters() {
           </span>
 
           <ul className="transfer-list">
-            <li className="transfer-list-item">
+            {Object.keys(stops)
+              .sort()
+              .map((stop: string) => (
+                <li key={stop} className="transfer-list-item">
+                  <label className="filter-label transfer-label">
+                    <input
+                      className="transfer-input visually-hidden"
+                      type="checkbox"
+                      name="transfer"
+                      value={stop}
+                    />
+                    {Tranfers[stop]}
+                    <span className="transfer-custom-checkbox"></span>
+                  </label>
+                </li>
+              ))}
+
+            {/* <li className="transfer-list-item">
               <label className="filter-label transfer-label">
                 <input
                   className="transfer-input visually-hidden"
@@ -60,7 +104,7 @@ function CatalogFilters() {
                 3 пересадки
                 <span className="transfer-custom-checkbox"></span>
               </label>
-            </li>
+            </li> */}
           </ul>
         </fieldset>
 
@@ -83,7 +127,22 @@ function CatalogFilters() {
               </label>
             </li>
 
-            <li className="company-list-item">
+            {companies.map((company) => (
+              <li key={company.id} className="company-list-item">
+                <label className="filter-label company-label">
+                  <input
+                    className="company-input visually-hidden"
+                    type="radio"
+                    name="company"
+                    value={company.name}
+                  />
+                  {company.name}
+                  <span className="company-custom-radio"></span>
+                </label>
+              </li>
+            ))}
+
+            {/* <li className="company-list-item">
               <label className="filter-label company-label">
                 <input
                   className="company-input visually-hidden"
@@ -107,7 +166,7 @@ function CatalogFilters() {
                 XiamenAir
                 <span className="company-custom-radio"></span>
               </label>
-            </li>
+            </li> */}
           </ul>
         </fieldset>
       </form>

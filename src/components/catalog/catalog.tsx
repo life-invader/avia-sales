@@ -1,15 +1,19 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-console */
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import CatalogHeader from '../catalog-header/catalog-header';
 import CatalogList from '../catalog-list/catalog-list';
 import CatalogFilters from '../catalog-filters/catalog-filters';
 import Search from '../search/search';
-import { fetchData } from '../../store/tickets-slice';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
-import { selectCompanies, selectTickets } from '../../store/selectors';
+import {
+  selectCompanies,
+  selectLoadingState,
+  selectTickets,
+} from '../../store/selectors';
 import './catalog.scss';
+import { fetchData } from '../../store/thunks';
 
 const TICKETS_SHOW_AMOUNT = 6;
 
@@ -18,11 +22,25 @@ function Catalog() {
 
   const tickets = useSelector(selectTickets);
   const companies = useSelector(selectCompanies);
+  const loadingState = useSelector(selectLoadingState);
+  const { isError, isLoading } = loadingState;
 
-  const showTickets = tickets.slice(0, TICKETS_SHOW_AMOUNT);
+  const [ticketsAmount, setTicketsAmount] = useState(TICKETS_SHOW_AMOUNT);
+  const showTickets = tickets.slice(0, ticketsAmount);
+
+  const showMoreClickHandler = () => {
+    setTicketsAmount(ticketsAmount + TICKETS_SHOW_AMOUNT);
+  };
 
   useEffect(() => {
-    dispatch(fetchData());
+    dispatch(fetchData())
+      .unwrap()
+      .then(() => {
+        console.log('Успех');
+      })
+      .catch(() => {
+        console.log('Упс( что-то пошло не так(');
+      });
   }, []);
 
   return (
@@ -31,15 +49,26 @@ function Catalog() {
       <Search />
 
       <div className="catalog-wrapper">
-        <div>
+        <div className="catalog-inner">
           <CatalogHeader />
-          <CatalogList tickets={showTickets} companies={companies} />
+          <CatalogList
+            tickets={showTickets}
+            companies={companies}
+            isLoading={isLoading}
+            isError={isError}
+          />
 
-          <button className="more-button" type="button">
-            Показать еще 5 билетов
-          </button>
+          {!isError && !isLoading && (
+            <button
+              className="more-button"
+              type="button"
+              onClick={showMoreClickHandler}
+            >
+              Показать еще 5 билетов
+            </button>
+          )}
         </div>
-        <CatalogFilters />
+        <CatalogFilters tickets={tickets} companies={companies} />
       </div>
     </section>
   );

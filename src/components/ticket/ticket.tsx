@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-console */
-import { ICompany, ITicket } from '../../store/tickets-slice';
+import { ICompany, ITicket } from '../../types/tickets';
 import {
   formatDate,
   formatDuration,
@@ -14,7 +12,7 @@ type TicketType = {
 };
 
 function Ticket({ price, info, company }: ITicket & TicketType) {
-  const { origin, destination, dateStart, dateEnd, duration, stops } = info;
+  const { origin, destination, dateStart, duration, stops } = info;
   const { logo, name } = company!;
 
   return (
@@ -23,10 +21,10 @@ function Ticket({ price, info, company }: ITicket & TicketType) {
         <header className="ticket-header">
           <p className="ticket-price">{formatGuitarPrice(price)} Р </p>
           <img
-            src={'images/s7-logo.png'}
+            src={require(`../../assets/img/${logo}`)}
             width="110"
             height="36"
-            alt={`Логотип авиакомпании ${name}`}
+            alt={`Логотип авиакомпании ${name}.`}
           />
         </header>
         <div className="ticket-info">
