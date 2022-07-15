@@ -29,11 +29,11 @@
   border-color: $color-blue;
 }
 
-.first-button {
+.sort-buttons-item:first-child .sort-button {
   border-radius: 7px 0 0 7px;
 }
 
-.last-button {
+.sort-buttons-item:last-child .sort-button {
   border-radius: 0 7px 7px 0;
 }
 

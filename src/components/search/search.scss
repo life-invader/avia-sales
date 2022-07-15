@@ -5,6 +5,8 @@
   grid-template-columns: repeat(2, 1fr);
   gap: 2px;
   position: relative;
+  padding-bottom: 25px;
+  border-bottom: 1px solid $border-color;
 }
 
 .field-wrapper {
@@ -16,6 +18,12 @@
 
 .label-wrapper {
   position: relative;
+
+  &:last-child {
+    .search-input-date {
+      border-radius: 0 8px 8px 0;
+    }
+  }
 }
 
 .change-btn {
@@ -41,6 +49,12 @@
   }
 }
 
+.search-label:first-child {
+  .search-dest {
+    border-radius: 8px 0 0 8px;
+  }
+}
+
 .search-input {
   width: 100%;
   padding: 20px 15px;
@@ -53,15 +67,7 @@
   font-weight: 400;
 
   &:focus {
-    outline: 2px solid #FF6F32;
-  }
-
-  &.firs-input {
-    border-radius: 8px 0 0 8px;
-  }
-
-  &.last-input {
-    border-radius: 0 8px 8px 0;
+    outline: 2px solid $color-orange;
   }
 }
 

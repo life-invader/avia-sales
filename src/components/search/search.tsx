@@ -1,17 +1,26 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-console */
 import { SyntheticEvent, useState } from 'react';
 import Datepicker from '../datepicker/datepicker';
 import './search.scss';
 
 function Search() {
-  const [isDatepickerOpened, setIsDatepickerOpened] = useState(false);
-  const [currentInput, setCurrentInput] = useState('');
+  const [isThereDatepickerOpened, setIsThereDatepickerOpened] = useState(false);
+  const [isBackDatepickerOpened, setIsBackDatepickerOpened] = useState(false);
 
-  const dateClickHandler = (evt: SyntheticEvent) => {
+  const closeAll = () => {
+    setIsThereDatepickerOpened(false);
+    setIsBackDatepickerOpened(false);
+  };
+
+  const dateThereClickHandler = (evt: SyntheticEvent) => {
     evt.stopPropagation();
-    setIsDatepickerOpened(true);
-    setCurrentInput(evt.currentTarget.id);
+    closeAll();
+    setIsThereDatepickerOpened(true);
+  };
+
+  const dateBackClickHandler = (evt: SyntheticEvent) => {
+    evt.stopPropagation();
+    closeAll();
+    setIsBackDatepickerOpened(true);
   };
 
   return (
@@ -20,7 +29,7 @@ function Search() {
         <label className="search-label">
           <span className="visually-hidden">Откуда летим</span>
           <input
-            className="search-input firs-input"
+            className="search-input search-dest"
             type="text"
             placeholder="Откуда"
             form="tickets-form"
@@ -30,7 +39,7 @@ function Search() {
         <label className="search-label">
           <span className="visually-hidden">Куда летим</span>
           <input
-            className="search-input"
+            className="search-input search-dest"
             type="text"
             placeholder="Куда"
             form="tickets-form"
@@ -54,11 +63,11 @@ function Search() {
               type="text"
               placeholder="Когда"
               form="tickets-form"
-              onClick={dateClickHandler}
+              onClick={dateThereClickHandler}
             />
           </label>
-          {isDatepickerOpened && (
-            <Datepicker closePicker={setIsDatepickerOpened} />
+          {isThereDatepickerOpened && (
+            <Datepicker closePicker={setIsThereDatepickerOpened} />
           )}
         </div>
 
@@ -67,15 +76,15 @@ function Search() {
             <span className="visually-hidden">Когда летим обратно</span>
             <input
               id="back"
-              className="search-input last-input search-input-date"
+              className="search-input search-input-date"
               type="text"
               placeholder="Обратно"
               form="tickets-form"
-              onClick={dateClickHandler}
+              onClick={dateBackClickHandler}
             />
           </label>
-          {isDatepickerOpened && (
-            <Datepicker closePicker={setIsDatepickerOpened} />
+          {isBackDatepickerOpened && (
+            <Datepicker closePicker={setIsBackDatepickerOpened} />
           )}
         </div>
       </div>

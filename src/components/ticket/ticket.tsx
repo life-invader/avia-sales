@@ -21,7 +21,7 @@ function Ticket({ price, info, company }: ITicket & TicketType) {
         <header className="ticket-header">
           <p className="ticket-price">{formatGuitarPrice(price)} Р </p>
           <img
-            src={require(`../../assets/img/${logo}`)}
+            src={`images/${logo}`}
             width="110"
             height="36"
             alt={`Логотип авиакомпании ${name}.`}

@@ -1,8 +1,5 @@
+import { ErrorType } from './types';
 import './error.scss';
-
-type ErrorType = {
-  clickHandler?: () => void;
-};
 
 function Error({ clickHandler }: ErrorType) {
   return (

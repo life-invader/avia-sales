@@ -1,23 +1,15 @@
-/* eslint-disable no-console */
-import { ICompany, ITicket } from '../../types/tickets';
+import { Transfers } from '../../constants/constants';
 import './catalog-filters.scss';
+import { CatalogFiltersType, StopsType, TransfersType } from './types';
 
-const Tranfers: { [key: string]: string } = {
-  'no-transfer': 'Без пересадок',
-  '1-transfer': '1 пересадки',
-  '2-transfer': '2 пересадки',
-  '3-transfer': '3 пересадки',
-};
-
-type CatalogFiltersType = {
-  tickets: ITicket[];
-  companies: ICompany[];
+const getTransferName = <T, K extends keyof T>(obj: T, key: K) => {
+  return obj[key];
 };
 
 function CatalogFilters({ tickets, companies }: CatalogFiltersType) {
   const stops = tickets
     .map((item) => item.info.stops)
-    .reduce((acc: { [key: string]: number }, item) => {
+    .reduce((acc: StopsType, item) => {
       acc[`${item.length === 0 ? 'no' : item.length}-transfer`] = acc[
         `${item.length === 0 ? 'no' : item.length}-transfer`
       ]
@@ -26,7 +18,6 @@ function CatalogFilters({ tickets, companies }: CatalogFiltersType) {
 
       return acc;
     }, {});
-  console.log(stops);
 
   return (
     <div className="filters">
@@ -39,7 +30,7 @@ function CatalogFilters({ tickets, companies }: CatalogFiltersType) {
           <ul className="transfer-list">
             {Object.keys(stops)
               .sort()
-              .map((stop: string) => (
+              .map((stop) => (
                 <li key={stop} className="transfer-list-item">
                   <label className="filter-label transfer-label">
                     <input
@@ -48,63 +39,11 @@ function CatalogFilters({ tickets, companies }: CatalogFiltersType) {
                       name="transfer"
                       value={stop}
                     />
-                    {Tranfers[stop]}
+                    {getTransferName(Transfers, stop as TransfersType)}
                     <span className="transfer-custom-checkbox"></span>
                   </label>
                 </li>
               ))}
-
-            {/* <li className="transfer-list-item">
-              <label className="filter-label transfer-label">
-                <input
-                  className="transfer-input visually-hidden"
-                  type="checkbox"
-                  name="transfer"
-                  value="no-transfer"
-                />
-                Без пересадок
-                <span className="transfer-custom-checkbox"></span>
-              </label>
-            </li>
-
-            <li className="transfer-list-item">
-              <label className="filter-label transfer-label">
-                <input
-                  className="transfer-input visually-hidden"
-                  type="checkbox"
-                  name="transfer"
-                  value="1-transfer"
-                />
-                1 пересадка
-                <span className="transfer-custom-checkbox"></span>
-              </label>
-            </li>
-
-            <li className="transfer-list-item">
-              <label className="filter-label transfer-label">
-                <input
-                  className="transfer-input visually-hidden"
-                  type="checkbox"
-                  name="transfer"
-                  value="2-transfer"
-                />
-                2 пересадки
-                <span className="transfer-custom-checkbox"></span>
-              </label>
-            </li>
-
-            <li className="transfer-list-item">
-              <label className="filter-label transfer-label">
-                <input
-                  className="transfer-input visually-hidden"
-                  type="checkbox"
-                  name="transfer"
-                  value="3-transfer"
-                />
-                3 пересадки
-                <span className="transfer-custom-checkbox"></span>
-              </label>
-            </li> */}
           </ul>
         </fieldset>
 
@@ -141,32 +80,6 @@ function CatalogFilters({ tickets, companies }: CatalogFiltersType) {
                 </label>
               </li>
             ))}
-
-            {/* <li className="company-list-item">
-              <label className="filter-label company-label">
-                <input
-                  className="company-input visually-hidden"
-                  type="radio"
-                  name="company"
-                  value="s7-airlines"
-                />
-                S7 Airlines
-                <span className="company-custom-radio"></span>
-              </label>
-            </li>
-
-            <li className="company-list-item">
-              <label className="filter-label company-label">
-                <input
-                  className="company-input visually-hidden"
-                  type="radio"
-                  name="company"
-                  value="xiamen-air"
-                />
-                XiamenAir
-                <span className="company-custom-radio"></span>
-              </label>
-            </li> */}
           </ul>
         </fieldset>
       </form>

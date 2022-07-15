@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-console */
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import CatalogHeader from '../catalog-header/catalog-header';
@@ -12,10 +10,9 @@ import {
   selectLoadingState,
   selectTickets,
 } from '../../store/selectors';
-import './catalog.scss';
 import { fetchData } from '../../store/thunks';
-
-const TICKETS_SHOW_AMOUNT = 6;
+import { TICKETS_SHOW_AMOUNT } from '../../constants/constants';
+import './catalog.scss';
 
 function Catalog() {
   const dispatch = useAppDispatch();
@@ -33,14 +30,7 @@ function Catalog() {
   };
 
   useEffect(() => {
-    dispatch(fetchData())
-      .unwrap()
-      .then(() => {
-        console.log('Успех');
-      })
-      .catch(() => {
-        console.log('Упс( что-то пошло не так(');
-      });
+    dispatch(fetchData());
   }, []);
 
   return (
