@@ -1,5 +1,7 @@
 import dayjs from 'dayjs';
 import Duration from 'dayjs/plugin/duration';
+import { StopsType } from '../components/catalog-filters/types';
+import { ITicket } from '../types/tickets';
 dayjs.extend(Duration);
 
 export const formatGuitarPrice = (price: number) =>
@@ -27,4 +29,18 @@ export const formatDuration = (duration: number) => {
   }
 
   return `${hours}ч ${minutes}м`;
+};
+
+export const getAvailableStops = (tickets: ITicket[]) => {
+  return tickets
+    .map((item) => item.info.stops)
+    .reduce((acc: StopsType, item) => {
+      acc[`${item.length === 0 ? 'no' : item.length}-transfer`] = acc[
+        `${item.length === 0 ? 'no' : item.length}-transfer`
+      ]
+        ? (acc[`${item.length === 0 ? 'no' : item.length}-transfer`] += 1)
+        : 1;
+
+      return acc;
+    }, {});
 };

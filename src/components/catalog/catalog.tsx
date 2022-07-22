@@ -13,6 +13,7 @@ import {
 import { fetchData } from '../../store/thunks';
 import { TICKETS_SHOW_AMOUNT } from '../../constants/constants';
 import './catalog.scss';
+import ShowMoreButton from './show-more-button/show-more-button';
 
 function Catalog() {
   const dispatch = useAppDispatch();
@@ -24,6 +25,7 @@ function Catalog() {
 
   const [ticketsAmount, setTicketsAmount] = useState(TICKETS_SHOW_AMOUNT);
   const showTickets = tickets.slice(0, ticketsAmount);
+  const remainingTickets = tickets.length - showTickets.length;
 
   const showMoreClickHandler = () => {
     setTicketsAmount(ticketsAmount + TICKETS_SHOW_AMOUNT);
@@ -48,15 +50,12 @@ function Catalog() {
             isError={isError}
           />
 
-          {!isError && !isLoading && (
-            <button
-              className="more-button"
-              type="button"
-              onClick={showMoreClickHandler}
-            >
-              Показать еще 5 билетов
-            </button>
-          )}
+          <ShowMoreButton
+            isError={isError}
+            isLoading={isLoading}
+            remainingTickets={remainingTickets}
+            showMoreClickHandler={showMoreClickHandler}
+          />
         </div>
         <CatalogFilters tickets={tickets} companies={companies} />
       </div>
