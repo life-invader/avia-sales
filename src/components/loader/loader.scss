@@ -1,4 +1,8 @@
+@import '../../variables.scss';
+
 .loader {
-  background-color: #ffffff;
+  background-color: $color-white;
   margin-top: 20px;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
+  border-radius: 5px;
 }
