@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/avia-sales/static/css/main.19a8dad8.css",
-    "main.js": "/avia-sales/static/js/main.1a8a81da.js",
+    "main.css": "/avia-sales/static/css/main.fe553ead.css",
+    "main.js": "/avia-sales/static/js/main.3ce9e94a.js",
     "index.html": "/avia-sales/index.html",
-    "static/media/calendar.svg": "/avia-sales/static/media/calendar.ee555dd50adc9211e565.svg",
-    "static/media/arrows.svg": "/avia-sales/static/media/arrows.2f408e7d9920d280cdc0.svg",
-    "static/media/mark.svg": "/avia-sales/static/media/mark.70919d3708a4501d68f4.svg",
-    "main.19a8dad8.css.map": "/avia-sales/static/css/main.19a8dad8.css.map",
-    "main.1a8a81da.js.map": "/avia-sales/static/js/main.1a8a81da.js.map"
+    "static/media/calendar.svg": "/avia-sales/static/media/calendar.6edae57bc065d615e1a2.svg",
+    "static/media/arrows.svg": "/avia-sales/static/media/arrows.93d5a103323addc06af7.svg",
+    "static/media/mark.svg": "/avia-sales/static/media/mark.645e11ab40dca2740709.svg",
+    "main.fe553ead.css.map": "/avia-sales/static/css/main.fe553ead.css.map",
+    "main.3ce9e94a.js.map": "/avia-sales/static/js/main.3ce9e94a.js.map"
   },
   "entrypoints": [
-    "static/css/main.19a8dad8.css",
-    "static/js/main.1a8a81da.js"
+    "static/css/main.fe553ead.css",
+    "static/js/main.3ce9e94a.js"
   ]
 }
