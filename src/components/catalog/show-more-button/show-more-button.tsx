@@ -1,4 +1,5 @@
 import { TICKETS_SHOW_AMOUNT } from '../../../constants/constants';
+import { ShowMoreButtonType } from './types';
 import './show-more-button.scss';
 
 function ShowMoreButton({
@@ -6,7 +7,7 @@ function ShowMoreButton({
   isLoading,
   showMoreClickHandler,
   remainingTickets,
-}: any) {
+}: ShowMoreButtonType) {
   const textContent =
     remainingTickets < TICKETS_SHOW_AMOUNT
       ? remainingTickets
