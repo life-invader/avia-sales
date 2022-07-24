@@ -1,28 +1,30 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from 'react';
-import { SortOptions } from '../../constants/constants';
+import { SortOptions, SortOptionsTitle } from '../../constants/constants';
 import './catalog-header.scss';
 
-function CatalogHeader() {
-  const [activeButton, setActiveButton] = useState(0);
+function CatalogHeader({ setActiveSort }: any) {
+  const [activeButton, setActiveButton] = useState<typeof SortOptions[keyof typeof SortOptions]>(SortOptions.Cheap);
 
-  const sortChangeHandler = (id: number) => () => {
-    setActiveButton(id);
+  const sortChangeHandler = (value: keyof typeof SortOptions) => () => {
+    setActiveButton(SortOptions[value]);
+    setActiveSort(SortOptions[value]);
   };
 
   return (
     <header className="catalog-header">
       <ul className="sort-buttons-list">
-        {Object.entries(SortOptions).map(([key, title], index) => (
+        {(Object.keys(SortOptions) as Array<keyof typeof SortOptions>).map((key) => (
           <li key={key} className="sort-buttons-item">
             <button
-              className={`sort-button ${
-                index === activeButton ? 'sort-button-active' : ''
-              }`}
+              className={`sort-button ${SortOptions[key] === activeButton ? 'sort-button-active' : ''
+                }`}
               type="button"
-              id={key}
-              onClick={sortChangeHandler(index)}
+              id={SortOptions[key]}
+              onClick={sortChangeHandler(key)}
             >
-              {title}
+              {SortOptionsTitle[SortOptions[key]]}
             </button>
           </li>
         ))}

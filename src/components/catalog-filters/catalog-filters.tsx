@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from 'react';
 import { Transfers } from '../../constants/constants';
 import { getAvailableStops } from '../../utils/ticket';
@@ -8,13 +9,19 @@ const getTransferName = <T, K extends keyof T>(obj: T, key: K) => {
   return obj[key];
 };
 
-function CatalogFilters({ tickets, companies }: CatalogFiltersType) {
+function CatalogFilters({
+  tickets,
+  companies,
+  transfersFilterClickHandler,
+  companiesFilterClickHandler,
+}: CatalogFiltersType) {
   const [companyFilter, setCompanyFilter] = useState('all');
 
   const stops = getAvailableStops(tickets);
 
   const companyFilterHandler = (evt: React.ChangeEvent<HTMLInputElement>) => {
     setCompanyFilter(evt.target.value);
+    companiesFilterClickHandler(evt);
   };
 
   return (
@@ -37,6 +44,7 @@ function CatalogFilters({ tickets, companies }: CatalogFiltersType) {
                       name="transfer"
                       value={stop}
                       id={stop}
+                      onChange={transfersFilterClickHandler}
                     />
                     {getTransferName(Transfers, stop as TransfersType)}
                     <span className="transfer-custom-checkbox"></span>

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import dayjs from 'dayjs';
 import Duration from 'dayjs/plugin/duration';
 import { StopsType } from '../components/catalog-filters/types';
@@ -38,8 +39,9 @@ export const getAvailableStops = (tickets: ITicket[]) => {
       acc[`${item.length === 0 ? 'no' : item.length}-transfer`] = acc[
         `${item.length === 0 ? 'no' : item.length}-transfer`
       ]
-        ? (acc[`${item.length === 0 ? 'no' : item.length}-transfer`] += 1)
-        : 1;
+        ? (acc[`${item.length === 0 ? 'no' : item.length}-transfer`] =
+          item.length)
+        : item.length;
 
       return acc;
     }, {});
