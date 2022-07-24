@@ -1,11 +1,12 @@
 import { Transfers } from '../../constants/constants';
-import { ICompany, ITicket } from '../../types/tickets';
+import { ICompany } from '../../types/tickets';
 
 export type TransfersType = keyof typeof Transfers;
 
 export type CatalogFiltersType = {
-  tickets: ITicket[];
   companies: ICompany[];
+  stops: StopsType;
+  checkedCompany: string;
   transfersFilterClickHandler: (
     evt: React.ChangeEvent<HTMLInputElement>
   ) => void;

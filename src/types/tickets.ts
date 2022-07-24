@@ -1,3 +1,5 @@
+import { SortOptions } from '../constants/constants';
+
 export type CityCodes =
   | 'MOW'
   | 'HKT'
@@ -31,3 +33,10 @@ export interface ICompany {
   name: string;
   logo: string;
 }
+
+export type FiltersType = {
+  transfers: string[];
+  company: string;
+};
+
+export type SortOptionsType = typeof SortOptions[keyof typeof SortOptions];

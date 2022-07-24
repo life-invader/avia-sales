@@ -5,6 +5,10 @@ import { StopsType } from '../components/catalog-filters/types';
 import { ITicket } from '../types/tickets';
 dayjs.extend(Duration);
 
+export const getTransferName = <T, K extends keyof T>(obj: T, key: K) => {
+  return obj[key];
+};
+
 export const formatGuitarPrice = (price: number) =>
   new Intl.NumberFormat('ru-RU').format(price);
 

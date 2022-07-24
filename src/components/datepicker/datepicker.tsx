@@ -3,10 +3,13 @@ import { DatepickerType } from './types';
 import './datepicker.scss';
 
 function Datepicker({ closePicker }: DatepickerType) {
-  const datePickerRef = useRef(null);
+  const datePickerRef = useRef<HTMLDivElement>(null);
 
   const handleOutsideClick = (evt: MouseEvent) => {
-    if (!evt.composedPath().includes(datePickerRef.current!)) {
+    if (
+      datePickerRef.current &&
+      !evt.composedPath().includes(datePickerRef.current)
+    ) {
       closePicker(false);
     }
   };

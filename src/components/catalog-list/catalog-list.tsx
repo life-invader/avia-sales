@@ -1,7 +1,7 @@
 import { TICKETS_SHOW_AMOUNT } from '../../constants/constants';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { fetchData } from '../../store/thunks';
-import { ITicket } from '../../types/tickets';
+import { ICompany, ITicket } from '../../types/tickets';
 import Error from '../error/error';
 import Loader from '../loader/loader';
 import Ticket from '../ticket/ticket';
@@ -17,7 +17,14 @@ function CatalogList({
   const dispatch = useAppDispatch();
 
   const getCompany = (ticket: ITicket) => {
-    return companies.find((item) => item.id === ticket.companyId);
+    return (
+      companies.find((item) => item.id === ticket.companyId) ||
+      ({
+        id: 'default',
+        logo: 'default',
+        name: 'default',
+      } as ICompany)
+    );
   };
 
   const tryAgainClickHandler = () => {

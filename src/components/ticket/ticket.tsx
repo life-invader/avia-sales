@@ -9,12 +9,12 @@ import {
 import './ticket.scss';
 
 type TicketType = {
-  company: ICompany | undefined;
+  company: ICompany;
 };
 
 function Ticket({ price, info, company }: ITicket & TicketType) {
   const { origin, destination, dateStart, duration, stops } = info;
-  const { logo, name } = company!;
+  const { logo, name } = company;
 
   return (
     <li className="catalog-item" onClick={() => console.log(info, price)}>

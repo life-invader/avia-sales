@@ -1,3 +1,4 @@
+import { StopsType } from '../components/catalog-filters/types';
 import { ITicket } from '../types/tickets';
 
 export const ApiRoutes = {
@@ -13,6 +14,25 @@ export const Transfers = {
   '2-transfer': '2 пересадки',
   '3-transfer': '3 пересадки',
 } as const;
+
+export const FilterFunctions = {
+  transfers: (item: string[], stops: StopsType, ticket: ITicket) => {
+    if (item.length === 0) {
+      return true;
+    }
+
+    return item.some((i) => {
+      return stops[i] === ticket.info.stops.length;
+    });
+  },
+  company: (ticket: ITicket, companyId: string) => {
+    if (companyId === 'default') {
+      return true;
+    }
+
+    return ticket.companyId === companyId;
+  },
+};
 
 export const SortOptions = {
   Cheap: 'cheap',
