@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { ICompany, ITicket } from '../../types/tickets';
 import {
   formatDate,
@@ -16,7 +17,7 @@ function Ticket({ price, info, company }: ITicket & TicketType) {
   const { logo, name } = company!;
 
   return (
-    <li className="catalog-item">
+    <li className="catalog-item" onClick={() => console.log(info, price)}>
       <div className="ticket">
         <header className="ticket-header">
           <p className="ticket-price">{formatGuitarPrice(price)} Р </p>

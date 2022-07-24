@@ -34,6 +34,8 @@ export const SortFunctions = {
     return tickets.sort((a, b) => a.info.duration - b.info.duration);
   },
   [SortOptions.Optimal]: (tickets: ITicket[]) => {
-    return tickets.sort((a, b) => a.price - b.price);
+    return tickets.sort(
+      (a, b) => a.info.duration - b.info.duration || a.price - b.price
+    );
   },
 };
