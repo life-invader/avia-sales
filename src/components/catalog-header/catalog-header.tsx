@@ -1,26 +1,31 @@
+import { useState } from 'react';
+import { SortOptions } from '../../constants/constants';
 import './catalog-header.scss';
 
 function CatalogHeader() {
+  const [activeButton, setActiveButton] = useState(0);
+
+  const sortChangeHandler = (id: number) => () => {
+    setActiveButton(id);
+  };
+
   return (
     <header className="catalog-header">
       <ul className="sort-buttons-list">
-        <li className="sort-buttons-item">
-          <button className="sort-button sort-button-active" type="button">
-            Самый дешевый
-          </button>
-        </li>
-
-        <li className="sort-buttons-item">
-          <button className="sort-button" type="button">
-            Самый быстрый
-          </button>
-        </li>
-
-        <li className="sort-buttons-item">
-          <button className="sort-button" type="button">
-            Оптимальный
-          </button>
-        </li>
+        {Object.entries(SortOptions).map(([key, title], index) => (
+          <li key={key} className="sort-buttons-item">
+            <button
+              className={`sort-button ${
+                index === activeButton ? 'sort-button-active' : ''
+              }`}
+              type="button"
+              id={key}
+              onClick={sortChangeHandler(index)}
+            >
+              {title}
+            </button>
+          </li>
+        ))}
       </ul>
     </header>
   );
