@@ -1,0 +1,70 @@
+@import '../../variables.scss';
+
+.datepicker {
+  position: absolute;
+  min-width: 320px;
+  padding: 20px 34px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  right: 0;
+  top: calc(100% + 2px);
+  background-color: $color-white;
+  border-radius: 0 0 10px 10px;
+
+  &-title {
+    margin: 0;
+    color: $color-blue;
+    text-align: center;
+  }
+
+  &-head {
+    color: $placeholder-color;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  &-row {
+    display: grid;
+    grid-template-columns: repeat(7, 20px);
+    grid-auto-rows: 20px;
+    gap: 7px 20px;
+    justify-items: stretch;
+    margin-top: 6px;
+  }
+
+  &-day {
+    padding: 0;
+    text-align: center;
+    color: $color-black;
+    position: relative;
+    z-index: 1;
+
+    &:not(.inactive) {
+      cursor: pointer;
+    }
+
+    &:hover {
+      color: $color-white;
+    }
+
+    &:hover:not(.inactive):after {
+      content: '';
+      position: absolute;
+      width: 30px;
+      border-radius: 10px;
+      height: 30px;
+      background-color: $color-blue;
+      transform: translate(-50%, -50%);
+      top: 50%;
+      left: 50%;
+      z-index: -1;
+    }
+  }
+}
+
+.calendar {
+  grid-template-columns: repeat(7, 20px);
+  gap: 7px 20px;
+  border-collapse: collapse;
+  margin-top: 11px;
+  text-transform: uppercase;
+}
