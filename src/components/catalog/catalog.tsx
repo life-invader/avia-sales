@@ -23,6 +23,8 @@ function Catalog() {
   const [filters, setFilters] = useState<FiltersType>({
     transfers: [],
     company: 'all',
+    timeTo: '',
+    timeBack: '',
   });
   const [activeSort, setActiveSort] = useState<SortOptionsType>(
     SortOptions.Cheap

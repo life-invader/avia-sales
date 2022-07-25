@@ -32,7 +32,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "lint": "eslint --ext .ts,.tsx src",
-    "lint:fix": "eslint --ext .ts,.tsx src --fix"
+    "lint:fix": "eslint --ext .ts,.tsx,.js,.jsx src --fix"
   },
   "browserslist": {
     "production": [

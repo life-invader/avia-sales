@@ -1,9 +1,18 @@
-import { useEffect, useRef } from 'react';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-console */
+import { useEffect, useRef, useState } from 'react';
 import { DatepickerType } from './types';
+import classnames from 'classnames';
+import * as calendar from './calendar';
 import './datepicker.scss';
 
-function Datepicker({ closePicker }: DatepickerType) {
+const dateD = new Date();
+const weekDayNames = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+const monthData = calendar.getMonthData(dateD.getFullYear(), dateD.getMonth());
+
+function Datepicker({ closePicker, dataChooseHandler }: any) {
   const datePickerRef = useRef<HTMLDivElement>(null);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
   const handleOutsideClick = (evt: MouseEvent) => {
     if (
@@ -12,6 +21,10 @@ function Datepicker({ closePicker }: DatepickerType) {
     ) {
       closePicker(false);
     }
+  };
+
+  const handleDayClick = (date: Date) => {
+    dataChooseHandler(date);
   };
 
   useEffect(() => {
@@ -27,61 +40,34 @@ function Datepicker({ closePicker }: DatepickerType) {
       <table className="calendar">
         <thead className="datepicker-head">
           <tr className="datepicker-row">
-            <th className="head-cell">пн</th>
-            <th className="head-cell">вт</th>
-            <th className="head-cell">ср</th>
-            <th className="head-cell">чт</th>
-            <th className="head-cell">пт</th>
-            <th className="head-cell">сб</th>
-            <th className="head-cell">вс</th>
+            {weekDayNames.map((name) => (
+              <th key={name} className="head-cell">
+                {name}
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>
-          <tr className="datepicker-row">
-            <td className="datepicker-day inactive"></td>
-            <td className="datepicker-day inactive"></td>
-            <td className="datepicker-day">1</td>
-            <td className="datepicker-day">2</td>
-            <td className="datepicker-day">3</td>
-            <td className="datepicker-day">4</td>
-            <td className="datepicker-day">5</td>
-          </tr>
-          <tr className="datepicker-row">
-            <td className="datepicker-day">6</td>
-            <td className="datepicker-day">7</td>
-            <td className="datepicker-day">8</td>
-            <td className="datepicker-day">9</td>
-            <td className="datepicker-day">10</td>
-            <td className="datepicker-day">11</td>
-            <td className="datepicker-day">12</td>
-          </tr>
-          <tr className="datepicker-row">
-            <td className="datepicker-day">13</td>
-            <td className="datepicker-day">14</td>
-            <td className="datepicker-day">15</td>
-            <td className="datepicker-day">16</td>
-            <td className="datepicker-day">17</td>
-            <td className="datepicker-day">18</td>
-            <td className="datepicker-day">19</td>
-          </tr>
-          <tr className="datepicker-row">
-            <td className="datepicker-day">20</td>
-            <td className="datepicker-day">21</td>
-            <td className="datepicker-day">22</td>
-            <td className="datepicker-day">23</td>
-            <td className="datepicker-day">24</td>
-            <td className="datepicker-day">25</td>
-            <td className="datepicker-day">26</td>
-          </tr>
-          <tr className="datepicker-row">
-            <td className="datepicker-day">27</td>
-            <td className="datepicker-day">28</td>
-            <td className="datepicker-day">29</td>
-            <td className="datepicker-day">30</td>
-            <td className="datepicker-day">31</td>
-            <td className="datepicker-day inactive"></td>
-            <td className="datepicker-day inactive"></td>
-          </tr>
+          {monthData.map((week, index) => (
+            <tr key={index} className="datepicker-row">
+              {week.map((date, index) =>
+                date ? (
+                  <td
+                    key={index}
+                    className={classnames('day', 'datepicker-day', {
+                      today: calendar.areEqual(date, dateD),
+                      selected: calendar.areEqual(date, selectedDate),
+                    })}
+                    onClick={() => handleDayClick(date)}
+                  >
+                    {date.getDate()}
+                  </td>
+                ) : (
+                  <td key={index} />
+                )
+              )}
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>

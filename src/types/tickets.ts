@@ -37,6 +37,8 @@ export interface ICompany {
 export type FiltersType = {
   transfers: string[];
   company: string;
+  timeTo: string;
+  timeBack: string;
 };
 
 export type SortOptionsType = typeof SortOptions[keyof typeof SortOptions];

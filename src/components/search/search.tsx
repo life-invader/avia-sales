@@ -1,50 +1,79 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable prettier/prettier */
+/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { SyntheticEvent, useState } from 'react';
 import Datepicker from '../datepicker/datepicker';
+import InputCity from './input-city/input-city';
 import './search.scss';
 
 function Search() {
   const [isThereDatepickerOpened, setIsThereDatepickerOpened] = useState(false);
   const [isBackDatepickerOpened, setIsBackDatepickerOpened] = useState(false);
+  const [openedPicker, setOpenedPicker] = useState('');
+  const [selectedTime, setSelectedTime] = useState<any>({
+    timeTo: '',
+    timeBack: '',
+  });
 
   const closeAll = () => {
     setIsThereDatepickerOpened(false);
     setIsBackDatepickerOpened(false);
   };
 
-  const dateThereClickHandler = (evt: SyntheticEvent) => {
+  const dateThereClickHandler = (evt: SyntheticEvent<HTMLInputElement>) => {
     evt.stopPropagation();
     closeAll();
     setIsThereDatepickerOpened(true);
+    setOpenedPicker(evt.currentTarget.id);
   };
 
-  const dateBackClickHandler = (evt: SyntheticEvent) => {
+  const dateBackClickHandler = (evt: SyntheticEvent<HTMLInputElement>) => {
     evt.stopPropagation();
     closeAll();
     setIsBackDatepickerOpened(true);
+    setOpenedPicker(evt.currentTarget.id);
   };
+
+  const dataChooseHandler = (date: Date) => {
+    setSelectedTime({ ...selectedTime, [openedPicker]: date });
+  }
 
   return (
     <div className="search">
       <div className="field-wrapper">
-        <label className="search-label">
-          <span className="visually-hidden">Откуда летим</span>
-          <input
-            className="search-input search-dest"
-            type="text"
-            placeholder="Откуда"
-            form="tickets-form"
-          />
-        </label>
+        {/* <div className="city-label-wrapper">
+          <label className="search-label">
+            <span className="visually-hidden">Откуда летим</span>
+            <input
+              className="search-input search-dest"
+              type="text"
+              placeholder="Откуда"
+              form="tickets-form"
+            />
+            <ul className="search-options-list">
+              <li className='search-options-item'>
+                Вариант 1
+              </li>
+              <li className='search-options-item'>
+                Вариант 2
+              </li>
+            </ul>
+          </label>
+        </div> */}
+        <InputCity title={'Откуда летим'} placeholder={'Откуда'} />
 
-        <label className="search-label">
-          <span className="visually-hidden">Куда летим</span>
-          <input
-            className="search-input search-dest"
-            type="text"
-            placeholder="Куда"
-            form="tickets-form"
-          />
-        </label>
+        <div className="city-label-wrapper">
+          <label className="search-label">
+            <span className="visually-hidden">Куда летим</span>
+            <input
+              className="search-input search-dest"
+              type="text"
+              placeholder="Куда"
+              form="tickets-form"
+            />
+          </label>
+        </div>
 
         <button className="change-btn" type="button">
           <span className="visually-hidden">
@@ -58,16 +87,18 @@ function Search() {
           <label className="search-label">
             <span className="visually-hidden">Когда летим</span>
             <input
-              id="there"
+              id="timeTo"
               className="search-input search-input-date"
               type="text"
               placeholder="Когда"
               form="tickets-form"
+              value={selectedTime.timeTo ? selectedTime.timeTo.toLocaleDateString() : ''}
+              readOnly
               onClick={dateThereClickHandler}
             />
           </label>
           {isThereDatepickerOpened && (
-            <Datepicker closePicker={setIsThereDatepickerOpened} />
+            <Datepicker closePicker={setIsThereDatepickerOpened} dataChooseHandler={dataChooseHandler} />
           )}
         </div>
 
@@ -75,16 +106,21 @@ function Search() {
           <label className="search-label">
             <span className="visually-hidden">Когда летим обратно</span>
             <input
-              id="back"
+              id="timeBack"
               className="search-input search-input-date"
               type="text"
               placeholder="Обратно"
               form="tickets-form"
+              value={selectedTime.timeBack ? selectedTime.timeBack.toLocaleDateString() : ''}
+              readOnly
               onClick={dateBackClickHandler}
             />
           </label>
           {isBackDatepickerOpened && (
-            <Datepicker closePicker={setIsBackDatepickerOpened} />
+            <Datepicker
+              closePicker={setIsBackDatepickerOpened}
+              dataChooseHandler={dataChooseHandler}
+            />
           )}
         </div>
       </div>

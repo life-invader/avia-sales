@@ -1,7 +1,8 @@
 import { SortOptions, SortOptionsTitle } from '../../constants/constants';
+import { CatalogHeaderType } from './types';
 import './catalog-header.scss';
 
-function CatalogHeader({ activeSort, setActiveSort }: any) {
+function CatalogHeader({ activeSort, setActiveSort }: CatalogHeaderType) {
   const sortChangeHandler = (key: keyof typeof SortOptions) => () => {
     setActiveSort(SortOptions[key]);
   };

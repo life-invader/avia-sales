@@ -9,6 +9,20 @@
   border-bottom: 1px solid $border-color;
 }
 
+.search-options-list {
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 0;
+  color: $color-white;
+  background-color: $color-blue;
+  margin: 0;
+  padding: 10px;
+  list-style: none;
+  width: 100%;
+  border-radius: 0 0 10px 10px;
+  z-index: 1;
+}
+
 .field-wrapper {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -49,7 +63,11 @@
   }
 }
 
-.search-label:first-child {
+.city-label-wrapper {
+  position: relative;
+}
+
+.city-label-wrapper:first-child {
   .search-dest {
     border-radius: 8px 0 0 8px;
   }
@@ -65,9 +83,18 @@
   font-size: 15px;
   line-height: 20px;
   font-weight: 400;
+  text-transform: uppercase;
 
   &:focus {
     outline: 2px solid $color-orange;
+  }
+
+  &::placeholder {
+    text-transform: none;
+  }
+
+  &:disabled {
+    background-color: $color-white;
   }
 }
 
