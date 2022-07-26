@@ -15,6 +15,7 @@ import {
 import { fetchData } from '../../store/thunks';
 import { SortOptions, TICKETS_SHOW_AMOUNT } from '../../constants/constants';
 import { FiltersType, SortOptionsType } from '../../types/tickets';
+import { setCompany, setTransfers } from '../../store/filters-slice';
 import './catalog.scss';
 
 function Catalog() {
@@ -59,6 +60,7 @@ function Catalog() {
       });
     }
 
+    dispatch(setTransfers(transfer));
     setTicketsAmount(TICKETS_SHOW_AMOUNT);
   };
 
@@ -67,6 +69,7 @@ function Catalog() {
   ) => {
     setFilters({ ...filters, company: evt.target.value });
     setTicketsAmount(TICKETS_SHOW_AMOUNT);
+    dispatch(setCompany(evt.target.value));
   };
 
   useEffect(() => {

@@ -3,77 +3,33 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { SyntheticEvent, useState } from 'react';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
+import { setCity } from '../../store/filters-slice';
 import Datepicker from '../datepicker/datepicker';
 import InputCity from './input-city/input-city';
+import InputDate from './input-date/input-date';
 import './search.scss';
 
 function Search() {
-  const [isThereDatepickerOpened, setIsThereDatepickerOpened] = useState(false);
-  const [isBackDatepickerOpened, setIsBackDatepickerOpened] = useState(false);
-  const [openedPicker, setOpenedPicker] = useState('');
-  const [selectedTime, setSelectedTime] = useState<any>({
-    timeTo: '',
-    timeBack: '',
-  });
+  const dispatch = useAppDispatch();
 
-  const closeAll = () => {
-    setIsThereDatepickerOpened(false);
-    setIsBackDatepickerOpened(false);
-  };
+  const [isToDatePickerOpened, setIsToDatePickerOpened] = useState(false);
+  const [isBackDatePickerOpened, setIsBackDatePickerOpened] = useState(false);
 
-  const dateThereClickHandler = (evt: SyntheticEvent<HTMLInputElement>) => {
-    evt.stopPropagation();
-    closeAll();
-    setIsThereDatepickerOpened(true);
-    setOpenedPicker(evt.currentTarget.id);
-  };
+  const closePickers = () => {
+    setIsToDatePickerOpened(false);
+    setIsBackDatePickerOpened(false);
+  }
 
-  const dateBackClickHandler = (evt: SyntheticEvent<HTMLInputElement>) => {
-    evt.stopPropagation();
-    closeAll();
-    setIsBackDatepickerOpened(true);
-    setOpenedPicker(evt.currentTarget.id);
-  };
-
-  const dataChooseHandler = (date: Date) => {
-    setSelectedTime({ ...selectedTime, [openedPicker]: date });
+  const cityInputHandler = (city: string, id: string) => {
+    dispatch(setCity({ city, id }))
   }
 
   return (
     <div className="search">
       <div className="field-wrapper">
-        {/* <div className="city-label-wrapper">
-          <label className="search-label">
-            <span className="visually-hidden">Откуда летим</span>
-            <input
-              className="search-input search-dest"
-              type="text"
-              placeholder="Откуда"
-              form="tickets-form"
-            />
-            <ul className="search-options-list">
-              <li className='search-options-item'>
-                Вариант 1
-              </li>
-              <li className='search-options-item'>
-                Вариант 2
-              </li>
-            </ul>
-          </label>
-        </div> */}
-        <InputCity title={'Откуда летим'} placeholder={'Откуда'} />
-
-        <div className="city-label-wrapper">
-          <label className="search-label">
-            <span className="visually-hidden">Куда летим</span>
-            <input
-              className="search-input search-dest"
-              type="text"
-              placeholder="Куда"
-              form="tickets-form"
-            />
-          </label>
-        </div>
+        <InputCity title={'Откуда летим'} placeholder={'Откуда'} id={'cityFrom'} cityInputHandler={cityInputHandler} />
+        <InputCity title={'Куда летим'} placeholder={'Куда'} id={'cityTo'} cityInputHandler={cityInputHandler} />
 
         <button className="change-btn" type="button">
           <span className="visually-hidden">
@@ -83,46 +39,9 @@ function Search() {
       </div>
 
       <div className="field-wrapper">
-        <div className="label-wrapper">
-          <label className="search-label">
-            <span className="visually-hidden">Когда летим</span>
-            <input
-              id="timeTo"
-              className="search-input search-input-date"
-              type="text"
-              placeholder="Когда"
-              form="tickets-form"
-              value={selectedTime.timeTo ? selectedTime.timeTo.toLocaleDateString() : ''}
-              readOnly
-              onClick={dateThereClickHandler}
-            />
-          </label>
-          {isThereDatepickerOpened && (
-            <Datepicker closePicker={setIsThereDatepickerOpened} dataChooseHandler={dataChooseHandler} />
-          )}
-        </div>
 
-        <div className="label-wrapper">
-          <label className="search-label">
-            <span className="visually-hidden">Когда летим обратно</span>
-            <input
-              id="timeBack"
-              className="search-input search-input-date"
-              type="text"
-              placeholder="Обратно"
-              form="tickets-form"
-              value={selectedTime.timeBack ? selectedTime.timeBack.toLocaleDateString() : ''}
-              readOnly
-              onClick={dateBackClickHandler}
-            />
-          </label>
-          {isBackDatepickerOpened && (
-            <Datepicker
-              closePicker={setIsBackDatepickerOpened}
-              dataChooseHandler={dataChooseHandler}
-            />
-          )}
-        </div>
+        <InputDate title={'Когда летим'} id={'timeTo'} placeholder={'Когда'} isDatePickerOpened={isToDatePickerOpened} setIsDatePickerOpened={setIsToDatePickerOpened} closePickers={closePickers} />
+        <InputDate title={'Когда летим обратно'} id={'timeBack'} placeholder={'Обратно'} isDatePickerOpened={isBackDatePickerOpened} setIsDatePickerOpened={setIsBackDatePickerOpened} closePickers={closePickers} />
       </div>
     </div>
   );

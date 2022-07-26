@@ -14,6 +14,7 @@
     margin: 0;
     color: $color-blue;
     text-align: center;
+    text-transform: uppercase;
   }
 
   &-head {
@@ -37,6 +38,24 @@
     color: $color-black;
     position: relative;
     z-index: 1;
+
+    &-active {
+      color: $color-white;
+      background-color: $color-blue;
+
+      &:after {
+        content: '';
+        position: absolute;
+        width: 30px;
+        border-radius: 10px;
+        height: 30px;
+        background-color: $color-blue;
+        transform: translate(-50%, -50%);
+        top: 50%;
+        left: 50%;
+        z-index: -1;
+      }
+    }
 
     &:not(.inactive) {
       cursor: pointer;

@@ -1,7 +1,8 @@
+/* eslint-disable prettier/prettier */
 import { useState } from 'react';
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
-function InputCity({ title, placeholder }: any) {
+function InputCity({ title, placeholder, id, cityInputHandler }: any) {
   const [isOpened, setIsOpened] = useState(false);
   const [searchName, setSearchName] = useState('');
 
@@ -16,6 +17,10 @@ function InputCity({ title, placeholder }: any) {
     setSearchName(evt.target.value.trim());
   };
 
+  const handleBlur = () => {
+    cityInputHandler(searchName, id);
+  }
+
   return (
     <div className="city-label-wrapper">
       <label className="search-label">
@@ -25,7 +30,9 @@ function InputCity({ title, placeholder }: any) {
           type="text"
           placeholder={placeholder}
           form="tickets-form"
+          id={id}
           onInput={handleInputChange}
+          onBlur={handleBlur}
         />
       </label>
       {isOpened && (

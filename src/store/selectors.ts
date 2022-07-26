@@ -4,9 +4,10 @@ import { FiltersType, ICompany, SortOptionsType } from '../types/tickets';
 import { getAvailableStops } from '../utils/ticket';
 import { RootState } from './store';
 
-export const selectTickets = (state: RootState) => state.tickets;
-export const selectCompanies = (state: RootState) => state.companies;
-export const selectLoadingState = (state: RootState) => state.loadingState;
+export const selectTickets = (state: RootState) => state.tickets.tickets;
+export const selectCompanies = (state: RootState) => state.tickets.companies;
+export const selectLoadingState = (state: RootState) =>
+  state.tickets.loadingState;
 export const selectAvailableStops = createSelector(selectTickets, (tickets) => {
   return getAvailableStops(tickets);
 });
@@ -38,3 +39,5 @@ export const selectFilteredTickets = (
       return SortFunctions[sort](result);
     }
   );
+
+export const selectChosenDate = (state: RootState) => state.filters.time;

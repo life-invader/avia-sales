@@ -1,18 +1,27 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-console */
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { DatepickerType } from './types';
 import classnames from 'classnames';
 import * as calendar from './calendar';
+import { setTime } from '../../store/filters-slice';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
+import { useSelector } from 'react-redux';
+import { selectChosenDate } from '../../store/selectors';
 import './datepicker.scss';
+import dayjs from 'dayjs';
 
 const dateD = new Date();
 const weekDayNames = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
 const monthData = calendar.getMonthData(dateD.getFullYear(), dateD.getMonth());
 
-function Datepicker({ closePicker, dataChooseHandler }: any) {
+function Datepicker({ closePicker, id }: any) {
+  const dispatch = useAppDispatch();
+  const time = useSelector(selectChosenDate) || 0;
+  const datePickerTypeTime = id === 'timeTo' ? time.timeTo : time.timeBack;
+
   const datePickerRef = useRef<HTMLDivElement>(null);
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
   const handleOutsideClick = (evt: MouseEvent) => {
     if (
@@ -24,7 +33,7 @@ function Datepicker({ closePicker, dataChooseHandler }: any) {
   };
 
   const handleDayClick = (date: Date) => {
-    dataChooseHandler(date);
+    dispatch(setTime({ date: date.getTime(), id }));
   };
 
   useEffect(() => {
@@ -36,7 +45,7 @@ function Datepicker({ closePicker, dataChooseHandler }: any) {
 
   return (
     <div className="datepicker" ref={datePickerRef}>
-      <p className="datepicker-title">ИЮНЬ 2022</p>
+      <p className="datepicker-title">{dayjs(datePickerTypeTime).format('MMMM, YYYY')}</p>
       <table className="calendar">
         <thead className="datepicker-head">
           <tr className="datepicker-row">
@@ -54,9 +63,12 @@ function Datepicker({ closePicker, dataChooseHandler }: any) {
                 date ? (
                   <td
                     key={index}
-                    className={classnames('day', 'datepicker-day', {
+                    className={classnames('datepicker-day', {
                       today: calendar.areEqual(date, dateD),
-                      selected: calendar.areEqual(date, selectedDate),
+                      'datepicker-day-active': calendar.areEqual(
+                        date,
+                        new Date(datePickerTypeTime)
+                      ),
                     })}
                     onClick={() => handleDayClick(date)}
                   >
