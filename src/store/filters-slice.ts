@@ -9,8 +9,10 @@ interface IFilters {
     timeTo: number;
     timeBack: number;
   };
-  cityFrom: string;
-  cityTo: string;
+  city: {
+    origin: string;
+    destination: string;
+  };
   sort: SortOptionsType;
 }
 
@@ -21,8 +23,10 @@ const initialState: IFilters = {
     timeTo: 0,
     timeBack: 0,
   },
-  cityFrom: '',
-  cityTo: '',
+  city: {
+    origin: '',
+    destination: '',
+  },
   sort: SortOptions.Cheap,
 };
 
@@ -54,14 +58,19 @@ const filtersSlice = createSlice({
     setCity(state, action: PayloadAction<{ id: string; city: string }>) {
       const { city, id } = action.payload;
       if (id === 'cityFrom') {
-        state.cityFrom = city;
+        state.city.origin = city;
       } else {
-        state.cityTo = city;
+        state.city.destination = city;
       }
+    },
+    swapCities(state) {
+      const temporary = state.city.origin;
+      state.city.origin = state.city.destination;
+      state.city.destination = temporary;
     },
   },
 });
 
 export default filtersSlice.reducer;
-export const { setTransfers, setCompany, setTime, setCity } =
+export const { setTransfers, setCompany, setTime, setCity, swapCities } =
   filtersSlice.actions;

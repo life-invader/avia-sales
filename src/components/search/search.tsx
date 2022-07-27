@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { SyntheticEvent, useState } from 'react';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
-import { setCity } from '../../store/filters-slice';
+import { setCity, swapCities } from '../../store/filters-slice';
 import Datepicker from '../datepicker/datepicker';
 import InputCity from './input-city/input-city';
 import InputDate from './input-date/input-date';
@@ -25,13 +25,17 @@ function Search() {
     dispatch(setCity({ city, id }))
   }
 
+  const swapCitiesClickHandler = () => {
+    dispatch(swapCities());
+  }
+
   return (
     <div className="search">
       <div className="field-wrapper">
         <InputCity title={'Откуда летим'} placeholder={'Откуда'} id={'cityFrom'} cityInputHandler={cityInputHandler} />
         <InputCity title={'Куда летим'} placeholder={'Куда'} id={'cityTo'} cityInputHandler={cityInputHandler} />
 
-        <button className="change-btn" type="button">
+        <button className="change-btn" type="button" onClick={swapCitiesClickHandler}>
           <span className="visually-hidden">
             Поменять местами &apos;откуда&apos; и &apos;куда&apos;
           </span>

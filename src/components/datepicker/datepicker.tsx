@@ -45,7 +45,7 @@ function Datepicker({ closePicker, id }: any) {
 
   return (
     <div className="datepicker" ref={datePickerRef}>
-      <p className="datepicker-title">{dayjs(datePickerTypeTime).format('MMMM, YYYY')}</p>
+      <p className="datepicker-title">{dayjs(dateD).format('MMMM, YYYY')}</p>
       <table className="calendar">
         <thead className="datepicker-head">
           <tr className="datepicker-row">

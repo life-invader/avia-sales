@@ -41,3 +41,17 @@ export const selectFilteredTickets = (
   );
 
 export const selectChosenDate = (state: RootState) => state.filters.time;
+export const selectCity = (key: string) => (state: RootState) => {
+  if (key === 'cityFrom') {
+    return state.filters.city.origin;
+  } else {
+    return state.filters.city.destination;
+  }
+};
+export const selectCities = (key: string) => (state: RootState) => {
+  if (key === 'cityFrom') {
+    return state.tickets.cities.origins;
+  } else {
+    return state.tickets.cities.destinations;
+  }
+};

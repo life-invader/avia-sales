@@ -5,6 +5,10 @@ import { fetchData } from './thunks';
 interface IInitialState {
   companies: ICompany[];
   tickets: ITicket[];
+  cities: {
+    origins: string[];
+    destinations: string[];
+  };
   loadingState: {
     isLoading: boolean;
     isError: boolean;
@@ -14,6 +18,10 @@ interface IInitialState {
 const initialState: IInitialState = {
   companies: [],
   tickets: [],
+  cities: {
+    origins: [],
+    destinations: [],
+  },
   loadingState: {
     isLoading: false,
     isError: false,
@@ -38,6 +46,24 @@ const ticketsSlice = createSlice({
 
         return 0;
       });
+
+      const origins: string[] = [];
+      const destinations: string[] = [];
+
+      action.payload.tickets.forEach((item) => {
+        if (!origins.includes(item.info.origin.toLocaleLowerCase())) {
+          origins.push(item.info.origin.toLocaleLowerCase());
+        }
+      });
+
+      action.payload.tickets.forEach((item) => {
+        if (!destinations.includes(item.info.destination.toLocaleLowerCase())) {
+          destinations.push(item.info.destination.toLocaleLowerCase());
+        }
+      });
+
+      state.cities.origins = origins;
+      state.cities.destinations = destinations;
 
       state.loadingState.isLoading = false;
       state.loadingState.isError = false;
