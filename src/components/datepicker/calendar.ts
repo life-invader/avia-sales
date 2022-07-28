@@ -1,8 +1,10 @@
-const DAYS_IN_WEEK = 7;
-const DAYS_IN_MONTH = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-const WEEK_DAYS_FROM_MONDAY = [6, 0, 1, 2, 3, 4, 5];
+export const DAYS_IN_WEEK = 7;
+export const DAYS_IN_MONTH = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+export const WEEK_DAYS_FROM_MONDAY = [6, 0, 1, 2, 3, 4, 5];
 
-const Month = {
+export const weekDayNames = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+
+export const Month = {
   January: 0,
   February: 1,
   March: 2,

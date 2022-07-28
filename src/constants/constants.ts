@@ -1,4 +1,5 @@
 import { StopsType } from '../components/catalog-filters/types';
+import { IFilters } from '../store/filters-slice/types';
 import { ITicket } from '../types/tickets';
 
 export const ApiRoutes = {
@@ -31,6 +32,44 @@ export const FilterFunctions = {
     }
 
     return ticket.companyId === companyId;
+  },
+  date: (ticket: ITicket, filters: IFilters) => {
+    const dateStart = Number(ticket.info.dateStart);
+    const dateEnd = Number(ticket.info.dateEnd);
+
+    const start = filters.time.timeTo ? filters.time.timeTo : null;
+    const end = filters.time.timeBack ? filters.time.timeBack : null;
+
+    return !(
+      (start && start > dateStart) ||
+      (end && end < dateStart) ||
+      (start && start > dateEnd) ||
+      (end && end < dateEnd)
+    );
+  },
+  cities: (ticket: ITicket, filters: IFilters) => {
+    const origin = filters.city.origin;
+    const destination = filters.city.destination;
+
+    function checkOrigin() {
+      if (!origin) {
+        return true;
+      }
+
+      return ticket.info.origin.toLowerCase().includes(origin.toLowerCase());
+    }
+
+    function checkDest() {
+      if (!destination) {
+        return true;
+      }
+
+      return ticket.info.destination
+        .toLowerCase()
+        .includes(destination.toLowerCase());
+    }
+
+    return checkOrigin() && checkDest();
   },
 };
 

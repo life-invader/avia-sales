@@ -1,21 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { ICompany, ITicket } from '../types/tickets';
-import { fetchData } from './thunks';
+import { fetchData } from '../thunks';
+import { ITickets } from './types';
 
-interface IInitialState {
-  companies: ICompany[];
-  tickets: ITicket[];
-  cities: {
-    origins: string[];
-    destinations: string[];
-  };
-  loadingState: {
-    isLoading: boolean;
-    isError: boolean;
-  };
-}
-
-const initialState: IInitialState = {
+const initialState: ITickets = {
   companies: [],
   tickets: [],
   cities: {

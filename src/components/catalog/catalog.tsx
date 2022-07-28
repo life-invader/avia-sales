@@ -11,35 +11,33 @@ import {
   selectCompanies,
   selectFilteredTickets,
   selectLoadingState,
-} from '../../store/selectors';
+} from '../../store/tickets-slice/selectors';
 import { fetchData } from '../../store/thunks';
-import { SortOptions, TICKETS_SHOW_AMOUNT } from '../../constants/constants';
-import { FiltersType, SortOptionsType } from '../../types/tickets';
-import { setCompany, setTransfers } from '../../store/filters-slice';
+import { TICKETS_SHOW_AMOUNT } from '../../constants/constants';
+import { SortOptionsType } from '../../types/tickets';
+import {
+  setCompany,
+  setSort,
+  setTransfers,
+} from '../../store/filters-slice/filters-slice';
 import './catalog.scss';
+import { selectCompany, selectSort } from '../../store/filters-slice/selectors';
 
 function Catalog() {
   const dispatch = useAppDispatch();
 
-  const [filters, setFilters] = useState<FiltersType>({
-    transfers: [],
-    company: 'all',
-    timeTo: '',
-    timeBack: '',
-  });
-  const [activeSort, setActiveSort] = useState<SortOptionsType>(
-    SortOptions.Cheap
-  );
   const [ticketsAmount, setTicketsAmount] = useState(TICKETS_SHOW_AMOUNT);
 
-  const tickets = useSelector(selectFilteredTickets(filters, activeSort));
-  const stops = useSelector(selectAvailableStops);
-  const companies = useSelector(selectCompanies);
-  const loadingState = useSelector(selectLoadingState);
+  const selectedCompany = useSelector(selectCompany); // выбранная компания
+  const tickets = useSelector(selectFilteredTickets); // все билеты
+  const stops = useSelector(selectAvailableStops); // доступные опции пересадок
+  const companies = useSelector(selectCompanies); // все компании
+  const sort = useSelector(selectSort); // текущая сортировка
+  const loadingState = useSelector(selectLoadingState); // состояние загрузки данных
   const { isError, isLoading } = loadingState;
 
-  const showTickets = tickets.slice(0, ticketsAmount);
-  const remainingTickets = tickets.length - showTickets.length;
+  const showTickets = tickets.slice(0, ticketsAmount); // пачка билетов для показа (по 6 шт)
+  const remainingTickets = tickets.length - showTickets.length; // кол-во оставшихся (не показанных на экране) билетов
 
   const showMoreClickHandler = () => {
     setTicketsAmount(ticketsAmount + TICKETS_SHOW_AMOUNT);
@@ -49,16 +47,6 @@ function Catalog() {
     evt: React.ChangeEvent<HTMLInputElement>
   ) => {
     const transfer = evt.target.value;
-    const checked = evt.target.checked;
-
-    if (checked) {
-      setFilters({ ...filters, transfers: [...filters.transfers, transfer] });
-    } else {
-      setFilters({
-        ...filters,
-        transfers: filters.transfers.filter((item) => item !== transfer),
-      });
-    }
 
     dispatch(setTransfers(transfer));
     setTicketsAmount(TICKETS_SHOW_AMOUNT);
@@ -67,9 +55,12 @@ function Catalog() {
   const companiesFilterClickHandler = (
     evt: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setFilters({ ...filters, company: evt.target.value });
     setTicketsAmount(TICKETS_SHOW_AMOUNT);
     dispatch(setCompany(evt.target.value));
+  };
+
+  const sortChangeHandler = (sort: SortOptionsType) => {
+    dispatch(setSort(sort));
   };
 
   useEffect(() => {
@@ -83,10 +74,8 @@ function Catalog() {
 
       <div className="catalog-wrapper">
         <div className="catalog-inner">
-          <CatalogHeader
-            activeSort={activeSort}
-            setActiveSort={setActiveSort}
-          />
+          <CatalogHeader activeSort={sort} setActiveSort={sortChangeHandler} />
+
           <CatalogList
             tickets={showTickets}
             companies={companies}
@@ -104,7 +93,7 @@ function Catalog() {
         <CatalogFilters
           stops={stops}
           companies={companies}
-          checkedCompany={filters.company}
+          checkedCompany={selectedCompany}
           transfersFilterClickHandler={transfersFilterClickHandler}
           companiesFilterClickHandler={companiesFilterClickHandler}
         />

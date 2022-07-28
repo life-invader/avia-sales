@@ -1,27 +1,26 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-console */
 import { useEffect, useRef } from 'react';
 import { DatepickerType } from './types';
-import classnames from 'classnames';
-import * as calendar from './calendar';
-import { setTime } from '../../store/filters-slice';
+import { setTime } from '../../store/filters-slice/filters-slice';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useSelector } from 'react-redux';
-import { selectChosenDate } from '../../store/selectors';
+import { formatMonth } from '../../utils/date-picker';
+import classnames from 'classnames';
+import { selectChosenDate } from '../../store/filters-slice/selectors';
+import * as calendar from './calendar';
 import './datepicker.scss';
-import dayjs from 'dayjs';
 
-const dateD = new Date();
-const weekDayNames = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
-const monthData = calendar.getMonthData(dateD.getFullYear(), dateD.getMonth());
-
-function Datepicker({ closePicker, id }: any) {
+function Datepicker({ closePicker, id }: DatepickerType) {
   const dispatch = useAppDispatch();
-  const time = useSelector(selectChosenDate) || 0;
-  const datePickerTypeTime = id === 'timeTo' ? time.timeTo : time.timeBack;
 
   const datePickerRef = useRef<HTMLDivElement>(null);
+  const dateFilters = useSelector(selectChosenDate);
+  const chosenDate = dateFilters[id];
+
+  const todaysDate = new Date();
+  const monthData = calendar.getMonthData(
+    todaysDate.getFullYear(),
+    todaysDate.getMonth()
+  );
 
   const handleOutsideClick = (evt: MouseEvent) => {
     if (
@@ -32,7 +31,7 @@ function Datepicker({ closePicker, id }: any) {
     }
   };
 
-  const handleDayClick = (date: Date) => {
+  const handleDayClick = (date: Date) => () => {
     dispatch(setTime({ date: date.getTime(), id }));
   };
 
@@ -45,11 +44,11 @@ function Datepicker({ closePicker, id }: any) {
 
   return (
     <div className="datepicker" ref={datePickerRef}>
-      <p className="datepicker-title">{dayjs(dateD).format('MMMM, YYYY')}</p>
+      <p className="datepicker-title">{formatMonth(todaysDate)}</p>
       <table className="calendar">
         <thead className="datepicker-head">
           <tr className="datepicker-row">
-            {weekDayNames.map((name) => (
+            {calendar.weekDayNames.map((name) => (
               <th key={name} className="head-cell">
                 {name}
               </th>
@@ -64,13 +63,16 @@ function Datepicker({ closePicker, id }: any) {
                   <td
                     key={index}
                     className={classnames('datepicker-day', {
-                      today: calendar.areEqual(date, dateD),
+                      'datepicker-day-today': calendar.areEqual(
+                        date,
+                        todaysDate
+                      ),
                       'datepicker-day-active': calendar.areEqual(
                         date,
-                        new Date(datePickerTypeTime)
+                        new Date(chosenDate)
                       ),
                     })}
-                    onClick={() => handleDayClick(date)}
+                    onClick={handleDayClick(date)}
                   >
                     {date.getDate()}
                   </td>

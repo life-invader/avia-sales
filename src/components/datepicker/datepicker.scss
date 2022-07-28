@@ -57,6 +57,11 @@
       }
     }
 
+    &-today {
+      color: $color-white;
+      background-color: $color-red;
+    }
+
     &:not(.inactive) {
       cursor: pointer;
     }

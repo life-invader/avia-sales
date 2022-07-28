@@ -1,32 +1,22 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable no-console */
-import dayjs from 'dayjs';
-import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { selectChosenDate } from '../../../store/selectors';
+import { formatInputDateValue } from '../../../utils/date-picker';
 import Datepicker from '../../datepicker/datepicker';
+import React from 'react';
+import { selectChosenDate } from '../../../store/filters-slice/selectors';
+import { InputDateType } from './types';
 
-import updateLocale from 'dayjs/plugin/updateLocale';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
-import customParssdafeFormat from 'dayjs/locale/ru';
-dayjs.extend(updateLocale, customParseFormat)
-// dayjs.updateLocale('ru', {
-//   weekdaysShort: [
-//     'пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'
-//   ]
-// })
-dayjs.locale(customParssdafeFormat)
+function InputDate({
+  title,
+  id,
+  placeholder,
+  isDatePickerOpened,
+  setIsDatePickerOpened,
+  closePickers,
+}: InputDateType) {
+  const dateFilters = useSelector(selectChosenDate);
+  const chosenDate = dateFilters[id];
 
-function InputDate({ title, id, placeholder, isDatePickerOpened, setIsDatePickerOpened, closePickers }: any) {
-  const time = useSelector(selectChosenDate);
-  const datePickerTypeTime = id === 'timeTo' ? time.timeTo : time.timeBack;
-  const formattedDate = dayjs(datePickerTypeTime).format('DD MMMM, dd')
-  console.log(dayjs(datePickerTypeTime).format('DD MMMM, dd'))
-  console.log(dayjs(new Date()).format('DD MMMM, dd'))
-
-  const datePickerHandler = (evt: any) => {
+  const datePickerHandler = (evt: React.SyntheticEvent) => {
     evt.stopPropagation();
     closePickers();
     setIsDatePickerOpened(true);
@@ -42,21 +32,13 @@ function InputDate({ title, id, placeholder, isDatePickerOpened, setIsDatePicker
           type="text"
           placeholder={placeholder}
           form="tickets-form"
-          value={
-            Number(datePickerTypeTime)
-              ? formattedDate
-              : ''
-          }
+          value={chosenDate ? formatInputDateValue(chosenDate) : ''}
           readOnly
           onClick={datePickerHandler}
         />
       </label>
       {isDatePickerOpened && (
-        <Datepicker
-          closePicker={setIsDatePickerOpened}
-          id={id}
-          isDatePickerOpened={isDatePickerOpened}
-        />
+        <Datepicker closePicker={setIsDatePickerOpened} id={id} />
       )}
     </div>
   );

@@ -1,20 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { SortOptions } from '../constants/constants';
-import { SortOptionsType } from '../types/tickets';
-
-interface IFilters {
-  transfers: string[];
-  company: string;
-  time: {
-    timeTo: number;
-    timeBack: number;
-  };
-  city: {
-    origin: string;
-    destination: string;
-  };
-  sort: SortOptionsType;
-}
+import { SortOptions } from '../../constants/constants';
+import { SortOptionsType } from '../../types/tickets';
+import { FilterCityType, IFilters, TimeType } from './types';
 
 const initialState: IFilters = {
   transfers: [],
@@ -46,31 +33,37 @@ const filtersSlice = createSlice({
     setCompany(state, action: PayloadAction<string>) {
       state.company = action.payload;
     },
-    setTime(state, action: PayloadAction<{ date: number; id: string }>) {
+    setTime(
+      state,
+      action: PayloadAction<{ date: number; id: keyof TimeType }>
+    ) {
       const { id, date } = action.payload;
-
-      if (id === 'timeTo') {
-        state.time.timeTo = date;
-      } else {
-        state.time.timeBack = date;
-      }
+      state.time[id] = date;
     },
-    setCity(state, action: PayloadAction<{ id: string; city: string }>) {
+    setCity(
+      state,
+      action: PayloadAction<{ id: keyof FilterCityType; city: string }>
+    ) {
       const { city, id } = action.payload;
-      if (id === 'cityFrom') {
-        state.city.origin = city;
-      } else {
-        state.city.destination = city;
-      }
+      state.city[id] = city;
     },
     swapCities(state) {
       const temporary = state.city.origin;
       state.city.origin = state.city.destination;
       state.city.destination = temporary;
     },
+    setSort(state, action: PayloadAction<SortOptionsType>) {
+      state.sort = action.payload;
+    },
   },
 });
 
 export default filtersSlice.reducer;
-export const { setTransfers, setCompany, setTime, setCity, swapCities } =
-  filtersSlice.actions;
+export const {
+  setTransfers,
+  setCompany,
+  setTime,
+  setCity,
+  swapCities,
+  setSort,
+} = filtersSlice.actions;

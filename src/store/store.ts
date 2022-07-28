@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
-import tickets from './tickets-slice';
-import filters from './filters-slice';
+import tickets from './tickets-slice/tickets-slice';
+import filters from './filters-slice/filters-slice';
 
 export const store = configureStore({
   reducer: {
