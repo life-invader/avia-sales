@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { swapCities } from '../../store/filters-slice/filters-slice';
 import { FilterCityType } from '../../store/filters-slice/types';
@@ -9,14 +8,6 @@ import './search.scss';
 
 function Search() {
   const dispatch = useAppDispatch();
-
-  const [isToDatePickerOpened, setIsToDatePickerOpened] = useState(false);
-  const [isBackDatePickerOpened, setIsBackDatePickerOpened] = useState(false);
-
-  const closePickers = () => {
-    setIsToDatePickerOpened(false);
-    setIsBackDatePickerOpened(false);
-  };
 
   const swapCitiesClickHandler = () => {
     dispatch(swapCities());
@@ -50,21 +41,11 @@ function Search() {
       </div>
 
       <div className="field-wrapper">
-        <InputDate
-          title={'Когда летим'}
-          id={'timeTo'}
-          placeholder={'Когда'}
-          isDatePickerOpened={isToDatePickerOpened}
-          setIsDatePickerOpened={setIsToDatePickerOpened}
-          closePickers={closePickers}
-        />
+        <InputDate title={'Когда летим'} id={'timeTo'} placeholder={'Когда'} />
         <InputDate
           title={'Когда летим обратно'}
           id={'timeBack'}
           placeholder={'Обратно'}
-          isDatePickerOpened={isBackDatePickerOpened}
-          setIsDatePickerOpened={setIsBackDatePickerOpened}
-          closePickers={closePickers}
         />
       </div>
     </div>

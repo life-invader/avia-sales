@@ -24,6 +24,22 @@
   width: 100%;
   border-radius: 0 0 10px 10px;
   z-index: 1;
+
+  &::-webkit-scrollbar {
+    /* Сам скроллбар */
+    background-color: transparent;
+    width: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    /* Цвет бегунка */
+    background-color: $color-white;
+  }
+
+  &::-webkit-scrollbar-track {
+    /* Цвет зоны отслеживания */
+    background: $color-blue;
+  }
 }
 
 .search-options-item {

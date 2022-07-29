@@ -38,7 +38,11 @@ const filtersSlice = createSlice({
       action: PayloadAction<{ date: number; id: keyof TimeType }>
     ) {
       const { id, date } = action.payload;
-      state.time[id] = date;
+      if (state.time[id] === date) {
+        state.time[id] = 0;
+      } else {
+        state.time[id] = date;
+      }
     },
     setCity(
       state,

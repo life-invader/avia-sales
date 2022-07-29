@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { DatepickerType } from './types';
 import { setTime } from '../../store/filters-slice/filters-slice';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
@@ -22,25 +22,10 @@ function Datepicker({ closePicker, id }: DatepickerType) {
     todaysDate.getMonth()
   );
 
-  const handleOutsideClick = (evt: MouseEvent) => {
-    if (
-      datePickerRef.current &&
-      !evt.composedPath().includes(datePickerRef.current)
-    ) {
-      closePicker(false);
-    }
-  };
-
   const handleDayClick = (date: Date) => () => {
     dispatch(setTime({ date: date.getTime(), id }));
+    closePicker();
   };
-
-  useEffect(() => {
-    document.addEventListener('click', handleOutsideClick);
-    return () => {
-      document.removeEventListener('click', handleOutsideClick);
-    };
-  }, []);
 
   return (
     <div className="datepicker" ref={datePickerRef}>

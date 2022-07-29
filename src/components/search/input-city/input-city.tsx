@@ -1,61 +1,50 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../../hooks/use-app-dispatch';
 import { setCity } from '../../../store/filters-slice/filters-slice';
-import { selectCity } from '../../../store/filters-slice/selectors';
 import { selectCities } from '../../../store/tickets-slice/selectors';
+import { debounce } from '../../../utils/debounce';
 import { InputCityType } from './types';
 
 function InputCity({ title, placeholder, id, filterId }: InputCityType) {
   const dispatch = useAppDispatch();
 
-  const availableCities = useSelector(selectCities(id)); // доступные города (откуда и куда в зав. от компонента инпута)
-  const chosenCity = useSelector(selectCity(filterId)); // введенный пользователем город
+  const [inputCity, setInputCity] = useState('');
+  const [isListOpened, setIsListOpened] = useState(false);
 
+  const availableCities = useSelector(selectCities(id)); // доступные города ('откуда' и 'куда' в зав. от компонента инпута)
   const inputRef = useRef<HTMLDivElement>(null);
 
-  const [isOpened, setIsOpened] = useState(false);
-
   // список городов для выпадающего списка
-  const citiesList = availableCities.filter((item) =>
-    item.includes(chosenCity)
-  );
+  const citiesList = availableCities.filter((item) => item.includes(inputCity));
+
+  const debouncedSetCity = useCallback(debounce(dispatch, 2000), []);
 
   const handleInputChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     const value = evt.target.value.trim();
 
     if (!value) {
-      dispatch(setCity({ city: '', id: filterId }));
-      setIsOpened(false);
+      debouncedSetCity(setCity({ city: '', id: filterId }));
+      setInputCity(value);
+      setIsListOpened(false);
       return;
     }
 
-    setIsOpened(true);
-    dispatch(setCity({ city: value, id: filterId }));
-  };
-
-  const handleFormFocus = (evt: React.FocusEvent<HTMLInputElement>) => {
-    const value = evt.target.value.trim();
-
-    if (!value) {
-      setIsOpened(false);
-      return;
-    }
-
-    if (citiesList.length) {
-      setIsOpened(true);
-    }
+    setIsListOpened(true);
+    debouncedSetCity(setCity({ city: value, id: filterId }));
+    setInputCity(value);
   };
 
   const handleOutsideFormClick = (evt: MouseEvent) => {
     if (inputRef.current && !evt.composedPath().includes(inputRef.current)) {
-      setIsOpened(false);
+      setIsListOpened(false);
     }
   };
 
   const itemClickHandler = (city: string) => () => {
     dispatch(setCity({ city, id: filterId }));
-    setIsOpened(false);
+    setInputCity(city);
+    setIsListOpened(false);
   };
 
   useEffect(() => {
@@ -75,12 +64,11 @@ function InputCity({ title, placeholder, id, filterId }: InputCityType) {
           form="tickets-form"
           maxLength={3}
           id={id}
-          value={chosenCity}
+          value={inputCity}
           onInput={handleInputChange}
-          onFocus={handleFormFocus}
         />
       </label>
-      {isOpened && citiesList.length > 0 && (
+      {isListOpened && citiesList.length > 0 && (
         <ul className="search-options-list">
           {citiesList.map((city) => (
             <li
