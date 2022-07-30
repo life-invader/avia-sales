@@ -1,0 +1,16 @@
+.no-tickets {
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 5px;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
+  width: 502px;
+  height: 135px;
+  margin-top: 20px;
+
+  &-msg {
+    margin: 0;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 24px;
+  }
+}

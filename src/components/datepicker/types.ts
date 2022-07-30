@@ -1,3 +1,4 @@
 export type DatepickerType = {
-  closePicker: (state: boolean) => void;
+  chosenDate: number;
+  selectDate: (date: Date) => () => void;
 };

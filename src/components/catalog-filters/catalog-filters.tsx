@@ -1,22 +1,15 @@
-import { useState } from 'react';
 import { Transfers } from '../../constants/constants';
-import { getAvailableStops } from '../../utils/ticket';
+import { getTransferName } from '../../utils/ticket';
 import { CatalogFiltersType, TransfersType } from './types';
 import './catalog-filters.scss';
 
-const getTransferName = <T, K extends keyof T>(obj: T, key: K) => {
-  return obj[key];
-};
-
-function CatalogFilters({ tickets, companies }: CatalogFiltersType) {
-  const [companyFilter, setCompanyFilter] = useState('all');
-
-  const stops = getAvailableStops(tickets);
-
-  const companyFilterHandler = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    setCompanyFilter(evt.target.value);
-  };
-
+function CatalogFilters({
+  companies,
+  stops,
+  checkedCompany,
+  transfersFilterClickHandler,
+  companiesFilterClickHandler,
+}: CatalogFiltersType) {
   return (
     <div className="filters">
       <form className="filters-form" id="tickets-form">
@@ -37,6 +30,7 @@ function CatalogFilters({ tickets, companies }: CatalogFiltersType) {
                       name="transfer"
                       value={stop}
                       id={stop}
+                      onChange={transfersFilterClickHandler}
                     />
                     {getTransferName(Transfers, stop as TransfersType)}
                     <span className="transfer-custom-checkbox"></span>
@@ -60,8 +54,8 @@ function CatalogFilters({ tickets, companies }: CatalogFiltersType) {
                   name="company"
                   value="all"
                   id="all"
-                  checked={companyFilter === 'all'}
-                  onChange={companyFilterHandler}
+                  checked={checkedCompany === 'all'}
+                  onChange={companiesFilterClickHandler}
                 />
                 Все
                 <span className="company-custom-radio"></span>
@@ -80,8 +74,8 @@ function CatalogFilters({ tickets, companies }: CatalogFiltersType) {
                     name="company"
                     value={company.name}
                     id={company.name}
-                    checked={companyFilter === company.name}
-                    onChange={companyFilterHandler}
+                    checked={checkedCompany === company.name}
+                    onChange={companiesFilterClickHandler}
                   />
                   {company.name}
                   <span className="company-custom-radio"></span>

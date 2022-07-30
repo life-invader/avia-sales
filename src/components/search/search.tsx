@@ -1,52 +1,39 @@
-import { SyntheticEvent, useState } from 'react';
-import Datepicker from '../datepicker/datepicker';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
+import { swapCities } from '../../store/filters-slice/filters-slice';
+import { FilterCityType } from '../../store/filters-slice/types';
+import { CitiesType } from '../../store/tickets-slice/types';
+import InputCity from './input-city/input-city';
+import InputDate from './input-date/input-date';
 import './search.scss';
 
 function Search() {
-  const [isThereDatepickerOpened, setIsThereDatepickerOpened] = useState(false);
-  const [isBackDatepickerOpened, setIsBackDatepickerOpened] = useState(false);
+  const dispatch = useAppDispatch();
 
-  const closeAll = () => {
-    setIsThereDatepickerOpened(false);
-    setIsBackDatepickerOpened(false);
-  };
-
-  const dateThereClickHandler = (evt: SyntheticEvent) => {
-    evt.stopPropagation();
-    closeAll();
-    setIsThereDatepickerOpened(true);
-  };
-
-  const dateBackClickHandler = (evt: SyntheticEvent) => {
-    evt.stopPropagation();
-    closeAll();
-    setIsBackDatepickerOpened(true);
+  const swapCitiesClickHandler = () => {
+    dispatch(swapCities());
   };
 
   return (
     <div className="search">
       <div className="field-wrapper">
-        <label className="search-label">
-          <span className="visually-hidden">Откуда летим</span>
-          <input
-            className="search-input search-dest"
-            type="text"
-            placeholder="Откуда"
-            form="tickets-form"
-          />
-        </label>
+        <InputCity
+          title={'Откуда летим'}
+          placeholder={'Откуда'}
+          id={'origins' as keyof CitiesType} // нужен для селектора доступных для выбора городов и в кач-ве id'шника
+          filterId={'origin' as keyof FilterCityType} // нужен для селектора фильтров
+        />
+        <InputCity
+          title={'Куда летим'}
+          placeholder={'Куда'}
+          id={'destinations' as keyof CitiesType} // нужен для селектора доступных для выбора городов и в кач-ве id'шника
+          filterId={'destination' as keyof FilterCityType} // нужен для селектора фильтров
+        />
 
-        <label className="search-label">
-          <span className="visually-hidden">Куда летим</span>
-          <input
-            className="search-input search-dest"
-            type="text"
-            placeholder="Куда"
-            form="tickets-form"
-          />
-        </label>
-
-        <button className="change-btn" type="button">
+        <button
+          className="change-btn"
+          type="button"
+          onClick={swapCitiesClickHandler}
+        >
           <span className="visually-hidden">
             Поменять местами &apos;откуда&apos; и &apos;куда&apos;
           </span>
@@ -54,39 +41,12 @@ function Search() {
       </div>
 
       <div className="field-wrapper">
-        <div className="label-wrapper">
-          <label className="search-label">
-            <span className="visually-hidden">Когда летим</span>
-            <input
-              id="there"
-              className="search-input search-input-date"
-              type="text"
-              placeholder="Когда"
-              form="tickets-form"
-              onClick={dateThereClickHandler}
-            />
-          </label>
-          {isThereDatepickerOpened && (
-            <Datepicker closePicker={setIsThereDatepickerOpened} />
-          )}
-        </div>
-
-        <div className="label-wrapper">
-          <label className="search-label">
-            <span className="visually-hidden">Когда летим обратно</span>
-            <input
-              id="back"
-              className="search-input search-input-date"
-              type="text"
-              placeholder="Обратно"
-              form="tickets-form"
-              onClick={dateBackClickHandler}
-            />
-          </label>
-          {isBackDatepickerOpened && (
-            <Datepicker closePicker={setIsBackDatepickerOpened} />
-          )}
-        </div>
+        <InputDate title={'Когда летим'} id={'timeTo'} placeholder={'Когда'} />
+        <InputDate
+          title={'Когда летим обратно'}
+          id={'timeBack'}
+          placeholder={'Обратно'}
+        />
       </div>
     </div>
   );
