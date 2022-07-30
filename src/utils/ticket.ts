@@ -1,8 +1,8 @@
-/* eslint-disable prettier/prettier */
 import dayjs from 'dayjs';
 import Duration from 'dayjs/plugin/duration';
 import { StopsType } from '../components/catalog-filters/types';
-import { ITicket } from '../types/tickets';
+import { DefaultCompany, TransfersDeclinations } from '../constants/constants';
+import { ICompany, ITicket } from '../types/tickets';
 dayjs.extend(Duration);
 
 export const getTransferName = <T, K extends keyof T>(obj: T, key: K) => {
@@ -44,9 +44,23 @@ export const getAvailableStops = (tickets: ITicket[]) => {
         `${item.length === 0 ? 'no' : item.length}-transfer`
       ]
         ? (acc[`${item.length === 0 ? 'no' : item.length}-transfer`] =
-          item.length)
+            item.length)
         : item.length;
 
       return acc;
     }, {});
+};
+
+export const getCompany = (ticket: ITicket, companies: ICompany[]) => {
+  return (
+    companies.find((item) => item.id === ticket.companyId) || DefaultCompany
+  );
+};
+
+export const getTransfersDeclination = (number: number) => {
+  return TransfersDeclinations[
+    number % 100 > 4 && number % 100 < 20
+      ? 2
+      : [2, 0, 1, 1, 1, 2][number % 10 < 5 ? Math.abs(number) % 10 : 5]
+  ];
 };

@@ -1,6 +1,6 @@
 import { StopsType } from '../components/catalog-filters/types';
 import { IFilters } from '../store/filters-slice/types';
-import { ITicket } from '../types/tickets';
+import { ICompany, ITicket } from '../types/tickets';
 
 export const ApiRoutes = {
   Tickets: '163b5e66df9f2741243e',
@@ -8,6 +8,14 @@ export const ApiRoutes = {
 };
 
 export const TICKETS_SHOW_AMOUNT = 5;
+
+export const TransfersDeclinations = ['пересадка', 'пересадки', 'пересадок'];
+
+export const DefaultCompany: ICompany = {
+  id: 'default',
+  logo: 'default',
+  name: 'default',
+};
 
 export const Transfers = {
   'no-transfer': 'Без пересадок',

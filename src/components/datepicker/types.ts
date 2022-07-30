@@ -1,6 +1,4 @@
-import { TimeType } from '../../store/filters-slice/types';
-
 export type DatepickerType = {
-  id: keyof TimeType;
-  closePicker: () => void;
+  chosenDate: number;
+  selectDate: (date: Date) => () => void;
 };

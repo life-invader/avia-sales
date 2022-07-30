@@ -1,6 +1,10 @@
 import { createSelector } from '@reduxjs/toolkit';
-import { FilterFunctions, SortFunctions } from '../../constants/constants';
-import { ICompany } from '../../types/tickets';
+import {
+  DefaultCompany,
+  FilterFunctions,
+  SortFunctions,
+} from '../../constants/constants';
+import { ICompany, ITicket } from '../../types/tickets';
 import { getAvailableStops } from '../../utils/ticket';
 import { selectFilters } from '../filters-slice/selectors';
 import { RootState } from '../store';
@@ -8,6 +12,13 @@ import { CitiesType } from './types';
 
 export const selectTickets = (state: RootState) => state.tickets.tickets;
 export const selectCompanies = (state: RootState) => state.tickets.companies;
+export const selectCompany = (ticket: ITicket) => (state: RootState) => {
+  const companies = state.tickets.companies;
+  // Если не указать DefaultCompany при возврате, у функции return type будет ICompany | undefined
+  return (
+    companies.find((item) => item.id === ticket.companyId) || DefaultCompany
+  );
+};
 export const selectCities = (key: keyof CitiesType) => (state: RootState) =>
   state.tickets.cities[key];
 export const selectLoadingState = (state: RootState) =>

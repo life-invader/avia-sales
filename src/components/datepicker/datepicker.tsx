@@ -1,31 +1,18 @@
 import { useRef } from 'react';
 import { DatepickerType } from './types';
-import { setTime } from '../../store/filters-slice/filters-slice';
-import { useAppDispatch } from '../../hooks/use-app-dispatch';
-import { useSelector } from 'react-redux';
 import { formatMonth } from '../../utils/date-picker';
 import classnames from 'classnames';
-import { selectChosenDate } from '../../store/filters-slice/selectors';
 import * as calendar from './calendar';
 import './datepicker.scss';
 
-function Datepicker({ closePicker, id }: DatepickerType) {
-  const dispatch = useAppDispatch();
-
+function Datepicker({ selectDate, chosenDate }: DatepickerType) {
   const datePickerRef = useRef<HTMLDivElement>(null);
-  const dateFilters = useSelector(selectChosenDate);
-  const chosenDate = dateFilters[id];
 
   const todaysDate = new Date();
   const monthData = calendar.getMonthData(
     todaysDate.getFullYear(),
     todaysDate.getMonth()
   );
-
-  const handleDayClick = (date: Date) => () => {
-    dispatch(setTime({ date: date.getTime(), id }));
-    closePicker();
-  };
 
   return (
     <div className="datepicker" ref={datePickerRef}>
@@ -57,7 +44,7 @@ function Datepicker({ closePicker, id }: DatepickerType) {
                         new Date(chosenDate)
                       ),
                     })}
-                    onClick={handleDayClick(date)}
+                    onClick={selectDate(date)}
                   >
                     {date.getDate()}
                   </td>

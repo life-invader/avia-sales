@@ -1,12 +1,13 @@
 import { TICKETS_SHOW_AMOUNT } from '../../constants/constants';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { fetchData } from '../../store/thunks';
-import { ICompany, ITicket } from '../../types/tickets';
 import Error from '../error/error';
 import Loader from '../loader/loader';
+import NoTickets from '../no-tickets/no-tickets';
 import Ticket from '../ticket/ticket';
 import { CatalogListType } from './types';
 import './catalog-list.scss';
+import { getCompany } from '../../utils/ticket';
 
 function CatalogList({
   tickets,
@@ -15,17 +16,6 @@ function CatalogList({
   isError = false,
 }: CatalogListType) {
   const dispatch = useAppDispatch();
-
-  const getCompany = (ticket: ITicket) => {
-    return (
-      companies.find((item) => item.id === ticket.companyId) ||
-      ({
-        id: 'default',
-        logo: 'default',
-        name: 'default',
-      } as ICompany)
-    );
-  };
 
   const tryAgainClickHandler = () => {
     dispatch(fetchData());
@@ -45,10 +35,18 @@ function CatalogList({
     );
   }
 
+  if (tickets.length === 0) {
+    return <NoTickets />;
+  }
+
   return (
     <ul className="catalog-list">
       {tickets.map((ticket) => (
-        <Ticket key={ticket.id} {...ticket} company={getCompany(ticket)} />
+        <Ticket
+          key={ticket.id}
+          {...ticket}
+          company={getCompany(ticket, companies)}
+        />
       ))}
     </ul>
   );

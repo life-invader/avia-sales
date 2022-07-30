@@ -3,20 +3,24 @@ import { formatInputDateValue } from '../../../utils/date-picker';
 import { useEffect, useRef, useState } from 'react';
 import { selectChosenDate } from '../../../store/filters-slice/selectors';
 import { InputDateType } from './types';
+import { setTime } from '../../../store/filters-slice/filters-slice';
 import Datepicker from '../../datepicker/datepicker';
+import { useAppDispatch } from '../../../hooks/use-app-dispatch';
 
 function InputDate({ title, id, placeholder }: InputDateType) {
+  const dispatch = useAppDispatch();
   const [isDatePickerOpened, setIsDatePickerOpened] = useState(false);
   const datePickerRef = useRef<HTMLDivElement>(null);
   const dateFilters = useSelector(selectChosenDate);
   const chosenDate = dateFilters[id];
 
-  const closePickerHandler = () => {
-    setIsDatePickerOpened(false);
+  const datePickerClickHandler = () => {
+    setIsDatePickerOpened(true);
   };
 
-  const datePickerHandler = () => {
-    setIsDatePickerOpened(true);
+  const handleDayClick = (date: Date) => () => {
+    dispatch(setTime({ date: date.getTime(), id }));
+    setIsDatePickerOpened(false);
   };
 
   const handleOutsideClick = (evt: MouseEvent) => {
@@ -47,11 +51,11 @@ function InputDate({ title, id, placeholder }: InputDateType) {
           form="tickets-form"
           value={chosenDate ? formatInputDateValue(chosenDate) : ''}
           readOnly
-          onClick={datePickerHandler}
+          onClick={datePickerClickHandler}
         />
       </label>
       {isDatePickerOpened && (
-        <Datepicker closePicker={closePickerHandler} id={id} />
+        <Datepicker selectDate={handleDayClick} chosenDate={chosenDate} />
       )}
     </div>
   );
