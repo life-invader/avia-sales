@@ -1,9 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { KeyboardEvent, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../../hooks/use-app-dispatch';
 import { setCity } from '../../../store/filters-slice/filters-slice';
 import { selectCities } from '../../../store/tickets-slice/selectors';
-import { debounce } from '../../../utils/debounce';
 import { InputCityType } from './types';
 
 function InputCity({ title, placeholder, id, filterId }: InputCityType) {
@@ -18,21 +17,24 @@ function InputCity({ title, placeholder, id, filterId }: InputCityType) {
   // список городов для выпадающего списка
   const citiesList = availableCities.filter((item) => item.includes(inputCity));
 
-  const debouncedSetCity = useCallback(debounce(dispatch, 2000), []);
-
   const handleInputChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     const value = evt.target.value.trim();
 
     if (!value) {
-      debouncedSetCity(setCity({ city: '', id: filterId }));
       setInputCity(value);
       setIsListOpened(false);
       return;
     }
 
     setIsListOpened(true);
-    debouncedSetCity(setCity({ city: value, id: filterId }));
     setInputCity(value);
+  };
+
+  // Сабмит по клику Enter
+  const onEnterKeyDown = (evt: KeyboardEvent) => {
+    if (evt.key === 'Enter') {
+      dispatch(setCity({ city: inputCity, id: filterId }));
+    }
   };
 
   const handleOutsideFormClick = (evt: MouseEvent) => {
@@ -41,6 +43,7 @@ function InputCity({ title, placeholder, id, filterId }: InputCityType) {
     }
   };
 
+  // Сабмит по клику на элемент выпадающего списка
   const itemClickHandler = (city: string) => () => {
     dispatch(setCity({ city, id: filterId }));
     setInputCity(city);
@@ -66,6 +69,7 @@ function InputCity({ title, placeholder, id, filterId }: InputCityType) {
           id={id}
           value={inputCity}
           onInput={handleInputChange}
+          onKeyDown={onEnterKeyDown}
         />
       </label>
       {isListOpened && citiesList.length > 0 && (
