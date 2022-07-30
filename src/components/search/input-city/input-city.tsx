@@ -2,11 +2,13 @@ import { KeyboardEvent, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../../hooks/use-app-dispatch';
 import { setCity } from '../../../store/filters-slice/filters-slice';
+import { selectCity } from '../../../store/filters-slice/selectors';
 import { selectCities } from '../../../store/tickets-slice/selectors';
 import { InputCityType } from './types';
 
 function InputCity({ title, placeholder, id, filterId }: InputCityType) {
   const dispatch = useAppDispatch();
+  const city = useSelector(selectCity(filterId));
 
   const [inputCity, setInputCity] = useState('');
   const [isListOpened, setIsListOpened] = useState(false);
@@ -55,6 +57,10 @@ function InputCity({ title, placeholder, id, filterId }: InputCityType) {
 
     return () => document.removeEventListener('click', handleOutsideFormClick);
   }, []);
+
+  useEffect(() => {
+    setInputCity(city);
+  }, [city]);
 
   return (
     <div className="city-label-wrapper" ref={inputRef}>
