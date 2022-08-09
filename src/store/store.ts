@@ -1,8 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
-import reducer from './tickets-slice';
+import tickets from './tickets-slice/tickets-slice';
+import filters from './filters-slice/filters-slice';
 
 export const store = configureStore({
-  reducer,
+  reducer: {
+    tickets,
+    filters,
+  },
 });
 
 export type RootState = ReturnType<typeof store.getState>;

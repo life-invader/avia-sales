@@ -9,6 +9,50 @@
   border-bottom: 1px solid $border-color;
 }
 
+.search-options-list {
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 0;
+  color: $color-white;
+  background-color: $color-blue;
+  margin: 0;
+  padding: 10px 0 10px;
+  min-height: 50px;
+  max-height: 150px;
+  overflow-y: scroll;
+  list-style: none;
+  width: 100%;
+  border-radius: 0 0 10px 10px;
+  z-index: 1;
+
+  &::-webkit-scrollbar {
+    /* Сам скроллбар */
+    background-color: transparent;
+    width: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    /* Цвет бегунка */
+    background-color: $color-white;
+  }
+
+  &::-webkit-scrollbar-track {
+    /* Цвет зоны отслеживания */
+    background: $color-blue;
+  }
+}
+
+.search-options-item {
+  padding: 5px 5px 5px 20px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.3s;
+
+  &:hover {
+    padding-left: 30px;
+  }
+}
+
 .field-wrapper {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -49,7 +93,11 @@
   }
 }
 
-.search-label:first-child {
+.city-label-wrapper {
+  position: relative;
+}
+
+.city-label-wrapper:first-child {
   .search-dest {
     border-radius: 8px 0 0 8px;
   }
@@ -65,9 +113,18 @@
   font-size: 15px;
   line-height: 20px;
   font-weight: 400;
+  text-transform: uppercase;
 
   &:focus {
     outline: 2px solid $color-orange;
+  }
+
+  &::placeholder {
+    text-transform: none;
+  }
+
+  &:disabled {
+    background-color: $color-white;
   }
 }
 
@@ -80,4 +137,5 @@
   background-image: url("../../../public/images/icons/calendar.svg");
   background-repeat: no-repeat;
   background-position: right 15px center;
+  text-transform: none;
 }

@@ -1,31 +1,31 @@
-import { useState } from 'react';
-import { SortOptions } from '../../constants/constants';
+import { SortOptions, SortOptionsTitle } from '../../constants/constants';
+import { CatalogHeaderType } from './types';
 import './catalog-header.scss';
 
-function CatalogHeader() {
-  const [activeButton, setActiveButton] = useState(0);
-
-  const sortChangeHandler = (id: number) => () => {
-    setActiveButton(id);
+function CatalogHeader({ activeSort, setActiveSort }: CatalogHeaderType) {
+  const sortChangeHandler = (key: keyof typeof SortOptions) => () => {
+    setActiveSort(SortOptions[key]);
   };
 
   return (
     <header className="catalog-header">
       <ul className="sort-buttons-list">
-        {Object.entries(SortOptions).map(([key, title], index) => (
-          <li key={key} className="sort-buttons-item">
-            <button
-              className={`sort-button ${
-                index === activeButton ? 'sort-button-active' : ''
-              }`}
-              type="button"
-              id={key}
-              onClick={sortChangeHandler(index)}
-            >
-              {title}
-            </button>
-          </li>
-        ))}
+        {(Object.keys(SortOptions) as Array<keyof typeof SortOptions>).map(
+          (key) => (
+            <li key={key} className="sort-buttons-item">
+              <button
+                className={`sort-button ${
+                  SortOptions[key] === activeSort ? 'sort-button-active' : ''
+                }`}
+                type="button"
+                id={SortOptions[key]}
+                onClick={sortChangeHandler(key)}
+              >
+                {SortOptionsTitle[SortOptions[key]]}
+              </button>
+            </li>
+          )
+        )}
       </ul>
     </header>
   );

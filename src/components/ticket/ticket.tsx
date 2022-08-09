@@ -4,16 +4,17 @@ import {
   formatDuration,
   formatGuitarPrice,
   getLandingTime,
+  getTransfersDeclination,
 } from '../../utils/ticket';
 import './ticket.scss';
 
 type TicketType = {
-  company: ICompany | undefined;
+  company: ICompany;
 };
 
 function Ticket({ price, info, company }: ITicket & TicketType) {
   const { origin, destination, dateStart, duration, stops } = info;
-  const { logo, name } = company!;
+  const { logo, name } = company;
 
   return (
     <li className="catalog-item">
@@ -47,7 +48,9 @@ function Ticket({ price, info, company }: ITicket & TicketType) {
               <p className="ticket-info-title">Без пересадок</p>
             ) : (
               <>
-                <p className="ticket-info-title">{stops.length} пересадки</p>
+                <p className="ticket-info-title">
+                  {stops.length} {getTransfersDeclination(stops.length)}
+                </p>
                 <p className="ticket-info-value">{stops.join(', ')}</p>
               </>
             )}
